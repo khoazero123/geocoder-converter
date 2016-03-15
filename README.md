@@ -1,5 +1,16 @@
 # GraphHopperNominatimConverter
-Converts a Nominatim response to a GraphHopper response
+Converts a Nominatim response to a GraphHopper response.
+A user queries this API. The Converter is querying the corresponding response from Nominatim.
+The Nominatim response is converted to the GraphHopper response layout. 
+
+## Query Interface
+
+The service should be queried like:
+```
+https://graphhopper.com/api/1/search?q=berlin[&NOMINATIM_PARAMETER]&key=[YOUR_KEY]
+```
+
+All parameters are piped to Nominatim except for the key.
 
 ## Nominatim Response
 
