@@ -12,6 +12,18 @@ https://graphhopper.com/api/1/search?q=berlin[&NOMINATIM_PARAMETER]&key=[YOUR_KE
 
 All parameters are piped to Nominatim except for the key.
 
+A sample request would be:
+```
+https://graphhopper.com/api/1/search?q=Unter%20den%20Linden&city=berlin&key=[YOUR_KEY]
+```
+
+This request would be wrapped to:
+```
+http://nominatim.openstreetmap.org/search/Unter%20den%20Linden?city=berlin&format=json&addressdetails=1
+```
+
+The `format=json` and `addressdetails=1` are added to every request.
+
 ## Nominatim Response
 
 A sample Nominatim Response for 
