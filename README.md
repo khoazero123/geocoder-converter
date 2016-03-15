@@ -10,11 +10,11 @@ The service should be queried like:
 https://graphhopper.com/api/1/search?q=berlin[&NOMINATIM_PARAMETER]&key=[YOUR_KEY]
 ```
 
-All parameters are piped to Nominatim except for the key.
+All parameters are piped to Nominatim (probably some will be excluded for performance?).
 
 A sample request would be:
 ```
-https://graphhopper.com/api/1/search?q=Unter%20den%20Linden&city=berlin&key=[YOUR_KEY]
+https://graphhopper.com/api/1/search?q=Unter%20den%20Linden&city=berlin
 ```
 
 This request would be wrapped to:
