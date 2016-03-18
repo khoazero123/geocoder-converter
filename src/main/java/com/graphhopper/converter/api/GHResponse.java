@@ -74,13 +74,13 @@ public class GHResponse
         this.point = point;
     }
 
-    @JsonProperty
+    @JsonProperty("osm_id")
     public int getOsmId()
     {
         return osmId;
     }
 
-    @JsonProperty
+    @JsonProperty("osm_id")
     public void setOsmId( int osmId )
     {
         this.osmId = osmId;
