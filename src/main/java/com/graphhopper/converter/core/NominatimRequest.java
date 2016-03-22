@@ -1,14 +1,10 @@
 package com.graphhopper.converter.core;
 
 import com.graphhopper.converter.api.NominatimResponse;
-import org.glassfish.jersey.client.ClientResponse;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
