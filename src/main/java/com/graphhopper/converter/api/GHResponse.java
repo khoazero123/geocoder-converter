@@ -9,7 +9,7 @@ public class GHResponse
 {
 
 
-    private int osmId;
+    private long osmId;
 
     private Point point;
 
@@ -17,7 +17,7 @@ public class GHResponse
     private String country;
     private String city;
 
-    public GHResponse( int osmId, double lat, double lng, String name, String country, String city )
+    public GHResponse( long osmId, double lat, double lng, String name, String country, String city )
     {
         this.osmId = osmId;
         this.point = new Point(lat, lng);
@@ -75,13 +75,13 @@ public class GHResponse
     }
 
     @JsonProperty("osm_id")
-    public int getOsmId()
+    public long getOsmId()
     {
         return osmId;
     }
 
     @JsonProperty("osm_id")
-    public void setOsmId( int osmId )
+    public void setOsmId( long osmId )
     {
         this.osmId = osmId;
     }

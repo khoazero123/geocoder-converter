@@ -11,7 +11,7 @@ public class NominatimResponse
 {
 
 
-    private int osmId;
+    private long osmId;
 
     private double lat;
     private double lon;
@@ -20,7 +20,7 @@ public class NominatimResponse
 
     private Address address;
 
-    public NominatimResponse( int osmId, double lat, double lon, String displayName, String country, String city )
+    public NominatimResponse( long osmId, double lat, double lon, String displayName, String country, String city )
     {
         this.osmId = osmId;
         this.lat = lat;
@@ -38,13 +38,13 @@ public class NominatimResponse
     }
 
     @JsonProperty("osm_id")
-    public int getOsmId()
+    public long getOsmId()
     {
         return osmId;
     }
 
     @JsonProperty("osm_id")
-    public void setOsmId( int osmId )
+    public void setOsmId( long osmId )
     {
         this.osmId = osmId;
     }
