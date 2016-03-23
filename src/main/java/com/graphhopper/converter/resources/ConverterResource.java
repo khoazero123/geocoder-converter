@@ -8,6 +8,7 @@ import com.graphhopper.converter.core.Converter;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,19 +36,46 @@ public class ConverterResource
 
     @GET
     @Timed
-    public List<GHResponse> handle( @NotNull @QueryParam("q") String query, @QueryParam("limit") @DefaultValue("5") int limit )
+    public List<GHResponse> handle( @NotNull @QueryParam("q") String query,
+                                    @QueryParam("limit") @DefaultValue("5") int limit,
+                                    @QueryParam("countrycodes") @DefaultValue("") String countrycodes,
+                                    @QueryParam("viewbox") @DefaultValue("") String viewbox,
+                                    @QueryParam("viewboxlbrt") @DefaultValue("") String viewboxlbrt,
+                                    @QueryParam("bounded") @DefaultValue("") String bounded
+    )
+
     {
         if (limit > 10)
         {
             limit = 10;
         }
 
-        Response response = jerseyClient.
+        WebTarget target = jerseyClient.
                 target(nominatimUrl).
                 queryParam("q", query).
                 queryParam("limit", limit).
                 queryParam("format", "json").
-                queryParam("addressdetails", "1").
+                queryParam("addressdetails", "1");
+
+        if (!countrycodes.isEmpty())
+        {
+            target = target.queryParam("countrycodes", countrycodes);
+        }
+        if (!viewbox.isEmpty())
+        {
+            target = target.queryParam("viewbox", viewbox);
+        }
+        if (!viewboxlbrt.isEmpty())
+        {
+            target = target.queryParam("viewboxlbrt", viewboxlbrt);
+        }
+        if (!bounded.isEmpty())
+        {
+            target = target.queryParam("bounded", bounded);
+        }
+
+
+        Response response = target.
                 request().
                 accept("application/json").
                 get();

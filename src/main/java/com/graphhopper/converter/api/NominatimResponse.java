@@ -34,6 +34,7 @@ public class NominatimResponse
 
     public NominatimResponse()
     {
+        this.address = new Address();
     }
 
     @JsonProperty("osm_id")
@@ -107,11 +108,14 @@ public class NominatimResponse
         private String town;
         private String village;
 
-        public String getGHCity(){
-            if(city != null){
+        public String getGHCity()
+        {
+            if (city != null)
+            {
                 return city;
             }
-            if(town != null){
+            if (town != null)
+            {
                 return town;
             }
             return village;
