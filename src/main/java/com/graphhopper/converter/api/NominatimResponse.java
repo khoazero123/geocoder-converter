@@ -104,6 +104,18 @@ public class NominatimResponse
 
         private String country;
         private String city;
+        private String town;
+        private String village;
+
+        public String getGHCity(){
+            if(city != null){
+                return city;
+            }
+            if(town != null){
+                return town;
+            }
+            return village;
+        }
 
         @JsonProperty
         public String getCountry()
@@ -127,6 +139,30 @@ public class NominatimResponse
         public void setCity( String city )
         {
             this.city = city;
+        }
+
+        @JsonProperty
+        public String getVillage()
+        {
+            return village;
+        }
+
+        @JsonProperty
+        public void setVillage( String village )
+        {
+            this.village = village;
+        }
+
+        @JsonProperty
+        public String getTown()
+        {
+            return town;
+        }
+
+        @JsonProperty
+        public void setTown( String town )
+        {
+            this.town = town;
         }
     }
 }

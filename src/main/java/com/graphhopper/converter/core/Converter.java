@@ -14,7 +14,7 @@ public class Converter
 
     public static GHResponse convertFromNominatim( NominatimResponse response )
     {
-        return new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getCity());
+        return new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getGHCity());
     }
 
     public static List<GHResponse> convertFromNominatimList( List<NominatimResponse> nominatimResponses )
