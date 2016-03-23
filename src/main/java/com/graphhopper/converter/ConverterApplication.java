@@ -14,18 +14,21 @@ import javax.ws.rs.client.Client;
 public class ConverterApplication extends Application<ConverterConfiguration>
 {
 
-    public static void main(String[] args) throws Exception {
+    public static void main( String[] args ) throws Exception
+    {
         new ConverterApplication().run(args);
     }
 
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "graphhopper-nominatim-converter";
     }
 
     @Override
-    public void initialize(Bootstrap<ConverterConfiguration> bootstrap) {
+    public void initialize( Bootstrap<ConverterConfiguration> bootstrap )
+    {
         // nothing to do yet
     }
 

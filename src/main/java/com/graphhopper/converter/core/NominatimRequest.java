@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @author Robin Boldt
  */
+@Deprecated
 public class NominatimRequest
 {
 
@@ -42,7 +43,9 @@ public class NominatimRequest
 
         System.out.println("Answer received");
 
-        List<NominatimResponse> entitiesFromResponse = response.readEntity(new GenericType<List<NominatimResponse>>(){});
+        List<NominatimResponse> entitiesFromResponse = response.readEntity(new GenericType<List<NominatimResponse>>()
+        {
+        });
         nominatimResponses = entitiesFromResponse;
     }
 

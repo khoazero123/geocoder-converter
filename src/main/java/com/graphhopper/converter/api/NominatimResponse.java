@@ -3,8 +3,6 @@ package com.graphhopper.converter.api;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 /**
  * @author Robin Boldt
  */
@@ -34,7 +32,9 @@ public class NominatimResponse
         address.setCity(city);
     }
 
-    public NominatimResponse(){}
+    public NominatimResponse()
+    {
+    }
 
     @JsonProperty("osm_id")
     public int getOsmId()
@@ -95,9 +95,12 @@ public class NominatimResponse
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Address{
+    public class Address
+    {
 
-        public Address(){}
+        public Address()
+        {
+        }
 
         private String country;
         private String city;
@@ -121,7 +124,7 @@ public class NominatimResponse
         }
 
         @JsonProperty
-        public void setCity(String city)
+        public void setCity( String city )
         {
             this.city = city;
         }

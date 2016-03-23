@@ -24,18 +24,21 @@ public class ConverterConfiguration extends Configuration
 
 
     @JsonProperty
-    public String getNominatimUrl() {
+    public String getNominatimUrl()
+    {
         return nominatimUrl;
     }
 
     @JsonProperty
-    public void setNominatimUrl(String url) {
+    public void setNominatimUrl( String url )
+    {
         this.nominatimUrl = url;
     }
 
 
     @JsonProperty("jerseyClient")
-    public JerseyClientConfiguration getJerseyClientConfiguration() {
+    public JerseyClientConfiguration getJerseyClientConfiguration()
+    {
         return jerseyClient;
     }
 

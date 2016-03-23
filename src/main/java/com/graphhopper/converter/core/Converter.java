@@ -12,15 +12,17 @@ import java.util.List;
 public class Converter
 {
 
-    public static GHResponse convertFromNominatim( NominatimResponse response){
+    public static GHResponse convertFromNominatim( NominatimResponse response )
+    {
         return new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getCity());
     }
 
-    public static List<GHResponse> convertFromNominatimList(List<NominatimResponse> nominatimResponses){
+    public static List<GHResponse> convertFromNominatimList( List<NominatimResponse> nominatimResponses )
+    {
 
         List<GHResponse> ghResponses = new ArrayList<GHResponse>(nominatimResponses.size());
 
-        for (NominatimResponse nominatimResponse: nominatimResponses)
+        for (NominatimResponse nominatimResponse : nominatimResponses)
         {
             ghResponses.add(convertFromNominatim(nominatimResponse));
         }
