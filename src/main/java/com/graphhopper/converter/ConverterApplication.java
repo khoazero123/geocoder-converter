@@ -1,5 +1,6 @@
 package com.graphhopper.converter;
 
+import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.ConverterResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -43,6 +44,10 @@ public class ConverterApplication extends Application<ConverterConfiguration>
                 converterConfiguration.getNominatimUrl(),
                 client
         );
+
+        final NominatimHealthCheck healthCheck =
+                new NominatimHealthCheck(converterConfiguration.getNominatimUrl(), client);
+        environment.healthChecks().register("template", healthCheck);
 
         environment.jersey().register(resource);
 
