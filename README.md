@@ -3,6 +3,8 @@ Converts a Nominatim response to a GraphHopper response.
 A user queries this API. The Converter is querying the corresponding response from Nominatim.
 The Nominatim response is converted to the GraphHopper response layout. 
 
+[![Build Status](https://travis-ci.org/boldtrn/GraphHopperNominatimConverter.svg?branch=master)](https://travis-ci.org/boldtrn/GraphHopperNominatimConverter)
+
 ## Query Interface
 
 The service should be queried like:
