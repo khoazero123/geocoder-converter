@@ -1,11 +1,14 @@
 package com.graphhopper.converter;
 
+import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.ConverterResource;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import java.util.EnumSet;
+import javax.servlet.DispatcherType;
 
 import javax.ws.rs.client.Client;
 
@@ -34,22 +37,23 @@ public class ConverterApplication extends Application<ConverterConfiguration>
     }
 
     @Override
-    public void run( ConverterConfiguration converterConfiguration, Environment environment ) throws Exception
+    public void run( ConverterConfiguration config, Environment environment ) throws Exception
     {
 
-        final Client client = new JerseyClientBuilder(environment).using(converterConfiguration.getJerseyClientConfiguration())
+        final Client client = new JerseyClientBuilder(environment).using(config.getJerseyClientConfiguration())
                 .build(getName());
 
         final ConverterResource resource = new ConverterResource(
-                converterConfiguration.getNominatimUrl(),
+                config.getNominatimUrl(),
                 client
         );
 
         final NominatimHealthCheck healthCheck =
-                new NominatimHealthCheck(converterConfiguration.getNominatimUrl(), client);
+                new NominatimHealthCheck(config.getNominatimUrl(), client);
         environment.healthChecks().register("template", healthCheck);
 
         environment.jersey().register(resource);
-
+        
+        environment.servlets().addFilter("ip-filter", new IPFilter(config.getIPWhiteList(), config.getIPBlackList())).addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     }
 }
