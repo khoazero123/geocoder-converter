@@ -1,12 +1,9 @@
 package com.graphhopper.converter.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.graphhopper.converter.api.GHResponse;
 import com.graphhopper.converter.api.NominatimEntry;
-import com.graphhopper.converter.api.OpenCageDataResponse;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
-import java.util.HashMap;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -37,11 +34,11 @@ public class ConverterResourceNominatim {
     @GET
     @Timed
     public Response handle(@NotNull @QueryParam("q") String query,
-            @QueryParam("limit") @DefaultValue("5") int limit,
-            @QueryParam("locale") @DefaultValue("") String locale,
-            @QueryParam("viewbox") @DefaultValue("") String viewbox,
-            @QueryParam("viewboxlbrt") @DefaultValue("") String viewboxlbrt,
-            @QueryParam("bounded") @DefaultValue("") String bounded
+                           @QueryParam("limit") @DefaultValue("5") int limit,
+                           @QueryParam("locale") @DefaultValue("") String locale,
+                           @QueryParam("viewbox") @DefaultValue("") String viewbox,
+                           @QueryParam("viewboxlbrt") @DefaultValue("") String viewboxlbrt,
+                           @QueryParam("bounded") @DefaultValue("") String bounded
     ) {
         if (limit > 10) {
             limit = 10;

@@ -7,8 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Robin Boldt
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NominatimEntry
-{
+public class NominatimEntry {
     private long osmId;
 
     private double lat;
@@ -18,8 +17,7 @@ public class NominatimEntry
 
     private Address address;
 
-    public NominatimEntry( long osmId, double lat, double lon, String displayName, String country, String city )
-    {
+    public NominatimEntry(long osmId, double lat, double lon, String displayName, String country, String city) {
         this.osmId = osmId;
         this.lat = lat;
         this.lon = lon;
@@ -30,74 +28,61 @@ public class NominatimEntry
         address.setCity(city);
     }
 
-    public NominatimEntry()
-    {
+    public NominatimEntry() {
         this.address = new Address();
     }
 
     @JsonProperty("osm_id")
-    public long getOsmId()
-    {
+    public long getOsmId() {
         return osmId;
     }
 
     @JsonProperty("osm_id")
-    public void setOsmId( long osmId )
-    {
+    public void setOsmId(long osmId) {
         this.osmId = osmId;
     }
 
     @JsonProperty
-    public double getLat()
-    {
+    public double getLat() {
         return lat;
     }
 
     @JsonProperty
-    public void setLat( double lat )
-    {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
     @JsonProperty
-    public double getLon()
-    {
+    public double getLon() {
         return lon;
     }
 
     @JsonProperty
-    public void setLon( double lon )
-    {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
     @JsonProperty("display_name")
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return displayName;
     }
 
     @JsonProperty("display_name")
-    public void setDisplayName( String displayName )
-    {
+    public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
-    public Address getAddress()
-    {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress( Address address )
-    {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Address
-    {
-        public Address()
-        {
+    public class Address {
+        public Address() {
         }
 
         private String country;
@@ -106,80 +91,66 @@ public class NominatimEntry
         private String village;
         private String hamlet;
 
-        public String getGHCity()
-        {
-            if (city != null)
-            {
+        public String getGHCity() {
+            if (city != null) {
                 return city;
             }
-            if (town != null)
-            {
+            if (town != null) {
                 return town;
             }
-            if(village != null) 
-            {
+            if (village != null) {
                 return village;
             }
             return hamlet;
         }
 
         @JsonProperty
-        public String getCountry()
-        {
+        public String getCountry() {
             return country;
         }
 
         @JsonProperty
-        public void setCountry( String country )
-        {
+        public void setCountry(String country) {
             this.country = country;
         }
 
         @JsonProperty
-        public String getCity()
-        {
+        public String getCity() {
             return city;
         }
 
         @JsonProperty
-        public void setCity( String city )
-        {
+        public void setCity(String city) {
             this.city = city;
         }
 
         @JsonProperty
-        public String getVillage()
-        {
+        public String getVillage() {
             return village;
         }
 
         @JsonProperty
-        public void setVillage( String village )
-        {
+        public void setVillage(String village) {
             this.village = village;
         }
-        
-         @JsonProperty
-        public String getHamlet()
-        {
+
+        @JsonProperty
+        public String getHamlet() {
             return hamlet;
         }
 
         @JsonProperty
-        public void setHamlet( String hamlet )
-        {
+        public void setHamlet(String hamlet) {
             this.hamlet = hamlet;
         }
 
         @JsonProperty
-        public String getTown()
-        {
+        public String getTown() {
             return town;
         }
 
         @JsonProperty
-        public void setTown( String town )
-        {
+        public void setTown(String town) {
             this.town = town;
         }
     }

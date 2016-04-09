@@ -1,7 +1,6 @@
 package com.graphhopper.converter.api;
 
 /**
- *
  * @author Peter Karich
  */
 public class Status {

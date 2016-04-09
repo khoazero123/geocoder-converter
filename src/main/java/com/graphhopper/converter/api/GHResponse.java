@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Robin Boldt
  */
-public class GHResponse
-{
+public class GHResponse {
     private Long osmId;
 
     private Point point;
@@ -15,8 +14,7 @@ public class GHResponse
     private String country;
     private String city;
 
-    public GHResponse( long osmId, double lat, double lng, String name, String country, String city )
-    {
+    public GHResponse(long osmId, double lat, double lng, String name, String country, String city) {
         this.osmId = osmId;
         this.point = new Point(lat, lng);
         this.name = name;
@@ -25,98 +23,82 @@ public class GHResponse
     }
 
     @JsonProperty
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @JsonProperty
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
     @JsonProperty
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
     @JsonProperty
-    public void setCountry( String country )
-    {
+    public void setCountry(String country) {
         this.country = country;
     }
 
     @JsonProperty
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
     @JsonProperty
-    public void setCity( String city )
-    {
+    public void setCity(String city) {
         this.city = city;
     }
 
     @JsonProperty
-    public Point getPoint()
-    {
+    public Point getPoint() {
         return point;
     }
 
     @JsonProperty
-    public void setPoint( Point point )
-    {
+    public void setPoint(Point point) {
         this.point = point;
     }
 
     @JsonProperty("osm_id")
-    public Long getOsmId()
-    {
+    public Long getOsmId() {
         return osmId;
     }
 
     @JsonProperty("osm_id")
-    public void setOsmId( Long osmId )
-    {
+    public void setOsmId(Long osmId) {
         this.osmId = osmId;
     }
 
-    public class Point
-    {
+    public class Point {
 
         private double lat;
         private double lng;
 
-        public Point( double lat, double lng )
-        {
+        public Point(double lat, double lng) {
             this.lat = lat;
             this.lng = lng;
         }
 
         @JsonProperty
-        public double getLat()
-        {
+        public double getLat() {
             return lat;
         }
 
         @JsonProperty
-        public void setLat( double lat )
-        {
+        public void setLat(double lat) {
             this.lat = lat;
         }
 
         @JsonProperty
-        public double getLng()
-        {
+        public double getLng() {
             return lng;
         }
 
         @JsonProperty
-        public void setLng( double lng )
-        {
+        public void setLng(double lng) {
             this.lng = lng;
         }
     }

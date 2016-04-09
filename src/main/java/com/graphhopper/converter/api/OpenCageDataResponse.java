@@ -1,10 +1,10 @@
 package com.graphhopper.converter.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 /**
- *
  * @author Peter Karich
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

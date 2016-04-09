@@ -17,6 +17,7 @@ public class OpenCageDataEntry {
 
         public OCDGeometry() {
         }
+
         @JsonProperty("lat")
         public double lat;
         @JsonProperty("lng")
@@ -28,6 +29,7 @@ public class OpenCageDataEntry {
 
         public OCDComponents() {
         }
+
         @JsonProperty("city")
         public String city;
         @JsonProperty("country")

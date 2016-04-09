@@ -9,12 +9,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Robin Boldt
  */
-public class ConverterTest
-{
+public class ConverterTest {
 
     @Test
-    public void testConvert()
-    {
+    public void testConvert() {
 
         // Build a Response
         NominatimEntry nominatimResponse = new NominatimEntry(1L, 1, 1, "test", "de", "Berlin");
@@ -29,8 +27,7 @@ public class ConverterTest
     }
 
     @Test
-    public void testConvertCityFallback()
-    {
+    public void testConvertCityFallback() {
         // Build a Response
         NominatimEntry nominatimResponse = new NominatimEntry();
         nominatimResponse.setOsmId(1L);
@@ -41,7 +38,7 @@ public class ConverterTest
         nominatimResponse.getAddress().setCountry("gb");
         GHResponse ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
-        assertEquals(1L, (long)ghResponse.getOsmId());
+        assertEquals(1L, (long) ghResponse.getOsmId());
         assertEquals(1, ghResponse.getPoint().getLat(), 0.001);
         assertEquals(1, ghResponse.getPoint().getLng(), 0.001);
         assertEquals("test", ghResponse.getName());

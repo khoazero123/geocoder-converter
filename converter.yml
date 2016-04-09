@@ -5,3 +5,7 @@ nominatimEmail:
 openCageDataUrl: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: 
 openCageData: false
+
+# e.g. to restrict for local access
+# ipWhiteList:"localhost,127.0.0.1"
+ipWhiteList: ""

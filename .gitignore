@@ -19,3 +19,5 @@ hs_err_pid*
 dependency-reduced-pom.xml
 nbactions.xml
 myconverter.yml
+*~
+start.sh

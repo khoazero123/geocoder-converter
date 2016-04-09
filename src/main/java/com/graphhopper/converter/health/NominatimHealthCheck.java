@@ -8,20 +8,17 @@ import javax.ws.rs.core.Response;
 /**
  * @author Robin Boldt
  */
-public class NominatimHealthCheck extends HealthCheck
-{
+public class NominatimHealthCheck extends HealthCheck {
     private final String nominatimUrl;
     private final Client jerseyClient;
 
-    public NominatimHealthCheck( String nominatimUrl, Client jerseyClient )
-    {
+    public NominatimHealthCheck(String nominatimUrl, Client jerseyClient) {
         this.nominatimUrl = nominatimUrl;
         this.jerseyClient = jerseyClient;
     }
 
     @Override
-    protected Result check() throws Exception
-    {
+    protected Result check() throws Exception {
         Response response = jerseyClient.
                 target(nominatimUrl).
                 queryParam("q", "berlin").
@@ -32,8 +29,7 @@ public class NominatimHealthCheck extends HealthCheck
                 accept("application/json").
                 get();
 
-        if (response.getStatus() != 200)
-        {
+        if (response.getStatus() != 200) {
             return Result.unhealthy("There exists an issue with Nominatim. " + response.readEntity(String.class));
         }
         return Result.healthy();

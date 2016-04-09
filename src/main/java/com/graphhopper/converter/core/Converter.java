@@ -1,15 +1,11 @@
 package com.graphhopper.converter.core;
 
-import com.graphhopper.converter.api.GHResponse;
-import com.graphhopper.converter.api.NominatimEntry;
-import com.graphhopper.converter.api.OpenCageDataEntry;
-import com.graphhopper.converter.api.OpenCageDataResponse;
-import com.graphhopper.converter.api.Status;
+import com.graphhopper.converter.api.*;
 
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.ws.rs.core.Response;
 
 /**
  * @author Robin Boldt

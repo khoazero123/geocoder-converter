@@ -17,19 +17,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Robin Boldt
  */
-public class ConverterResourceTest
-{
+public class ConverterResourceTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
 
     @Test
-    public void testHandle()
-    {
+    public void testHandle() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT,    100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
 
         Response response = client.target(
                 String.format("http://localhost:%d/nominatim?q=berlin", RULE.getLocalPort()))

@@ -3,7 +3,6 @@ package com.graphhopper.converter.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.OpenCageDataResponse;
 import com.graphhopper.converter.core.Converter;
-import java.util.HashMap;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -32,10 +31,10 @@ public class ConverterResourceOpenCageData {
     @GET
     @Timed
     public Response handle(@NotNull @QueryParam("q") String query,
-            @QueryParam("limit") @DefaultValue("5") int limit,
-            @QueryParam("locale") @DefaultValue("") String locale,
-            @QueryParam("countrycode") @DefaultValue("") String countrycode,
-            @QueryParam("bounds") @DefaultValue("") String bounds
+                           @QueryParam("limit") @DefaultValue("5") int limit,
+                           @QueryParam("locale") @DefaultValue("") String locale,
+                           @QueryParam("countrycode") @DefaultValue("") String countrycode,
+                           @QueryParam("bounds") @DefaultValue("") String bounds
     ) {
         if (limit > 10) {
             limit = 10;
@@ -47,7 +46,7 @@ public class ConverterResourceOpenCageData {
                 queryParam("key", key).
                 queryParam("no_annotations", "1").
                 // queryParam("pretty", "1").
-                queryParam("limit", limit);
+                        queryParam("limit", limit);
 
         if (!locale.isEmpty()) {
             target = target.queryParam("language", locale);
