@@ -1,2 +1,4 @@
 nominatimUrl: http://nominatim.openstreetmap.org/search/
+# e.g. to restrict for local access
+# ipWhiteList:"localhost,127.0.0.1"
 ipWhiteList: ""
