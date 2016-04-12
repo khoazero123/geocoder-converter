@@ -89,6 +89,12 @@ The according GH Response for the above request would be:
       "country": "Deutschland",
       "city": "Berlin"
     }
+  ],
+  "copyright": [
+    "OpenStreetMap",
+    "GraphHopper"
+  ]
+  
 }
 
 ```
