@@ -1,6 +1,6 @@
 package com.graphhopper.converter.core;
 
-import com.graphhopper.converter.api.GHResponse;
+import com.graphhopper.converter.api.GHEntry;
 import com.graphhopper.converter.api.NominatimEntry;
 import org.junit.Test;
 
@@ -15,10 +15,13 @@ public class ConverterTest {
     public void testConvert() {
 
         // Build a Response
-        NominatimEntry nominatimResponse = new NominatimEntry(1L, 1, 1, "test", "de", "Berlin");
-        GHResponse ghResponse = Converter.convertFromNominatim(nominatimResponse);
+        NominatimEntry nominatimResponse = new NominatimEntry(1L, "node", 1, 1, "test", "de", "Berlin");
+        assertEquals("N", nominatimResponse.getGHOsmType());
+
+        GHEntry ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
         assertEquals(1L, (long) ghResponse.getOsmId());
+        assertEquals("N", ghResponse.getOsmType());
         assertEquals(1, ghResponse.getPoint().getLat(), 0.001);
         assertEquals(1, ghResponse.getPoint().getLng(), 0.001);
         assertEquals("test", ghResponse.getName());
@@ -36,7 +39,7 @@ public class ConverterTest {
         nominatimResponse.setLon(1);
         nominatimResponse.getAddress().setTown("townie");
         nominatimResponse.getAddress().setCountry("gb");
-        GHResponse ghResponse = Converter.convertFromNominatim(nominatimResponse);
+        GHEntry ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
         assertEquals(1L, (long) ghResponse.getOsmId());
         assertEquals(1, ghResponse.getPoint().getLat(), 0.001);

@@ -3,7 +3,6 @@ package com.graphhopper.converter.core;
 import com.graphhopper.converter.api.*;
 
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,39 +11,79 @@ import java.util.List;
  */
 public class Converter {
 
-    public static GHResponse convertFromNominatim(NominatimEntry response) {
-        return new GHResponse(response.getOsmId(), response.getLat(), response.getLon(), response.getDisplayName(), response.getAddress().getCountry(), response.getAddress().getGHCity());
+    public static GHEntry convertFromNominatim(NominatimEntry response) {
+        GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(), response.getDisplayName(),
+                response.getAddress().getCountry(), response.getAddress().getGHCity());
+        return rsp;
     }
 
     public static Response convertFromNominatimList(List<NominatimEntry> nominatimResponses, Status status) {
-        List<GHResponse> ghResponses = new ArrayList<>(nominatimResponses.size());
+        GHResponse ghResponse = new GHResponse(nominatimResponses.size());
         for (NominatimEntry nominatimResponse : nominatimResponses) {
-            ghResponses.add(convertFromNominatim(nominatimResponse));
+            ghResponse.add(convertFromNominatim(nominatimResponse));
         }
 
-        return createResponse(ghResponses, status);
+        ghResponse.addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        return createResponse(ghResponse, status);
     }
 
-    public static GHResponse convertFromOpenCageData(OpenCageDataEntry response) {
-        return new GHResponse(1 /*TODO*/, response.getGeometry().lat, response.getGeometry().lng,
-                response.getFormatted(), response.getComponents().country, response.getComponents().city);
+    public static GHEntry convertFromOpenCageData(OpenCageDataEntry response) {
+        Long osmId = -1L;
+        String type = "N";
+
+        // extract OSM id and type from OSM annotation
+        if (response.getAnnotations() != null && response.getAnnotations().osm != null && response.getAnnotations().osm.editUrl != null) {
+            String url = response.getAnnotations().osm.editUrl;
+            // skip nodeId;
+            int index = url.indexOf("?");
+            int index2 = url.indexOf("#");
+            if (index > 0 && index2 > 0) {
+                char typeChar = url.charAt(index + 1);
+                if (typeChar == 'w') {
+                    try {
+                        // ?way=
+                        osmId = Long.parseLong(url.substring(index + 5, index2));
+                        type = "W";
+                    } catch (Exception ex) {
+                    }
+                } else if (typeChar == 'r') {
+                    try {
+                        // ?relation=
+                        osmId = Long.parseLong(url.substring(index + 10, index2));
+                        type = "R";
+                    } catch (Exception ex) {
+                    }
+                } else {
+                    try {
+                        // ?node=
+                        osmId = Long.parseLong(url.substring(index + 6, index2));
+                    } catch (Exception ex) {
+                    }
+                }
+            }
+        }
+
+        GHEntry rsp = new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
+                response.getFormatted(), response.getComponents().country, response.getComponents().getGHCity());        
+        return rsp;
     }
 
     public static Response convertFromOpenCageData(OpenCageDataResponse ocdRsp, Status status) {
         List<OpenCageDataEntry> ocdEntries = ocdRsp.results;
-        List<GHResponse> ghResponses = new ArrayList<>(ocdEntries.size());
+        GHResponse ghResponse = new GHResponse(ocdEntries.size());
         for (OpenCageDataEntry ocdResponse : ocdEntries) {
-            ghResponses.add(convertFromOpenCageData(ocdResponse));
+            ghResponse.add(convertFromOpenCageData(ocdResponse));
         }
 
-        return createResponse(ghResponses, status);
+        ghResponse.addCopyright("OpenCageData").addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        return createResponse(ghResponse, status);
     }
 
-    public static Response createResponse(List<GHResponse> ghResponses, Status status) {
+    public static Response createResponse(GHResponse ghResponse, Status status) {
         if (status.code == 200) {
 
             return Response.status(Response.Status.OK).
-                    entity(ghResponses).
+                    entity(ghResponse).
                     build();
         } else {
 
