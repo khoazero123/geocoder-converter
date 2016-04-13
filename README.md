@@ -90,7 +90,7 @@ The according GH Response for the above request would be:
       "city": "Berlin"
     }
   ],
-  "copyright": [
+  "copyrights": [
     "OpenStreetMap",
     "GraphHopper"
   ]
