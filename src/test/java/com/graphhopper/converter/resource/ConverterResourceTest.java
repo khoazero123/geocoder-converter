@@ -23,7 +23,7 @@ public class ConverterResourceTest {
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
 
     @Test
-    public void testHandle() {
+    public void testHandleForward() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
@@ -31,6 +31,21 @@ public class ConverterResourceTest {
 
         Response response = client.target(
                 String.format("http://localhost:%d/nominatim?q=berlin", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+    }
+
+    @Test
+    public void testHandleReverse() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/nominatim?point=52.5487429714954,-1.81602098644987&reverse=true", RULE.getLocalPort()))
                 .request()
                 .get();
 

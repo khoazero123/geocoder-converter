@@ -7,6 +7,8 @@ The Nominatim response is converted to the GraphHopper response layout.
 
 ## Query Interface
 
+### Geocoding (forward)
+
 The service should be queried like:
 ```
 https://graphhopper.com/api/1/search?q=berlin[&NOMINATIM_PARAMETER]&key=[YOUR_KEY]
@@ -25,6 +27,18 @@ http://nominatim.openstreetmap.org/search/Unter%20den%20Linden?city=berlin&forma
 ```
 
 The `format=json` and `addressdetails=1` are added to every request.
+
+### Reverse Geocoding
+
+A sample request would be:
+```
+https://graphhopper.com/api/1/geocode?point=52.5487429714954,-1.81602098644987&reverse=true&key=[YOUR_KEY]
+```
+
+The request would be wrapped to:
+```
+http://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
+```
 
 ## Nominatim Response
 

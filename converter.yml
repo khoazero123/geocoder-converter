@@ -1,4 +1,6 @@
+#TODO it might be better to only specify the base url like http://nominatim.openstreetmap.org/?
 nominatimUrl: http://nominatim.openstreetmap.org/search/
+nominatimReverseUrl: http://nominatim.openstreetmap.org/reverse/
 nominatim: true
 nominatimEmail: 
 

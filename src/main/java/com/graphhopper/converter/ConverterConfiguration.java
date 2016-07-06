@@ -15,6 +15,8 @@ public class ConverterConfiguration extends Configuration {
 
     @NotEmpty
     private String nominatimUrl = "http://nominatim.openstreetmap.org/search/";
+    @NotEmpty
+    private String nominatimReverseUrl = "http://nominatim.openstreetmap.org/reverse/";
     private String nominatimEmail = "";
     private String openCageDataUrl = "https://api.opencagedata.com/geocode/v1/json";
     private String openCageDataKey = "";
@@ -123,5 +125,13 @@ public class ConverterConfiguration extends Configuration {
     @JsonProperty(value = "ipWhiteList")
     public void setIPWhiteList(String ipWhiteList) {
         this.ipWhiteList = ipWhiteList;
+    }
+
+    public String getNominatimReverseUrl() {
+        return nominatimReverseUrl;
+    }
+
+    public void setNominatimReverseUrl(String nominatimReverseUrl) {
+        this.nominatimReverseUrl = nominatimReverseUrl;
     }
 }
