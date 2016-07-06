@@ -24,7 +24,7 @@ public class ConverterResourceTest {
 
     @Test
     public void testHandleForward() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client");
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test forward client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
         client.property(ClientProperties.READ_TIMEOUT, 100000);
@@ -39,7 +39,7 @@ public class ConverterResourceTest {
 
     @Test
     public void testHandleReverse() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test client");
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test reverse client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
         client.property(ClientProperties.READ_TIMEOUT, 100000);
