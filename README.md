@@ -102,3 +102,20 @@ The according GH Response for the above request would be:
 These examples are taken from:
 - https://graphhopper.com/api/1/docs/geocoding/#example-output-for-the-case-typejson
 - https://wiki.openstreetmap.org/wiki/Nominatim#Examples
+
+
+## Starting the Server
+
+Run the following commands from the main directory - **the version of the .jar might be different**:
+```
+mvn clean install
+java -jar target/graphhopper-geocoder-converter-0.2-SNAPSHOT.jar server converter.yml
+```
+
+### Configuring IntelliJ
+
+Click on `Run->Edit Configurations->+->Application`
+
+Main Class: `com.graphhopper.converter.ConverterApplication`
+Programm Arguments: `server converter.yml`
+Tick the `Single Instance Only` (not necessary, but recommended)
