@@ -42,13 +42,16 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
         cfg.setTimeout(Duration.seconds(5));
         cfg.setConnectionTimeout(Duration.seconds(5));
         cfg.setConnectionRequestTimeout(Duration.seconds(5));
-        
+
         final Client client = new JerseyClientBuilder(environment).using(cfg)
                 .build(getName());
 
         if (converterConfiguration.isNominatim()) {
             final ConverterResourceNominatim resource = new ConverterResourceNominatim(
-                    converterConfiguration.getNominatimUrl(), converterConfiguration.getNominatimEmail(), client);
+                    converterConfiguration.getNominatimUrl(),
+                    converterConfiguration.getNominatimReverseUrl(),
+                    converterConfiguration.getNominatimEmail(),
+                    client);
             environment.jersey().register(resource);
         }
 

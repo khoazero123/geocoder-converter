@@ -1,4 +1,5 @@
 nominatimUrl: http://nominatim.openstreetmap.org/search/
+nominatimReverseUrl: http://nominatim.openstreetmap.org/reverse/
 nominatim: true
 nominatimEmail: 
 
