@@ -81,7 +81,6 @@ public class ConverterResourceNominatim {
         Status status = new Status(response.getStatus(), response.getStatusInfo().getReasonPhrase());
         List<NominatimEntry> entitiesFromResponse;
         if (reverse) {
-            System.out.println(response);
             entitiesFromResponse = new ArrayList<>(1);
             entitiesFromResponse.add(0, response.readEntity(NominatimEntry.class));
         } else {
