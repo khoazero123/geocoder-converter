@@ -1,7 +1,7 @@
-# GraphHopperNominatimConverter
-Converts a Nominatim response to a GraphHopper response.
-A user queries this API. The Converter is querying the corresponding response from Nominatim.
-The Nominatim response is converted to the GraphHopper response layout. 
+# GraphHopper Geocoder Converter
+
+Converts a geocoding response like from Nominatim or OpenCageData to a GraphHopper response.
+A user queries this API and the converter is then querying Nominatim getting the corresponding response and converting it to the GraphHopper response layout.
 
 [![Build Status](https://travis-ci.org/boldtrn/graphhopper-geocoder-converter.svg?branch=master)](https://travis-ci.org/boldtrn/graphhopper-geocoder-converter)
 
