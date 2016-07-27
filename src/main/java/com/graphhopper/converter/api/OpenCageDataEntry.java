@@ -24,6 +24,7 @@ public class OpenCageDataEntry {
         public OCDAnnotationOSM osm = new OCDAnnotationOSM();
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class OCDAnnotationOSM {
 
         public OCDAnnotationOSM() {
