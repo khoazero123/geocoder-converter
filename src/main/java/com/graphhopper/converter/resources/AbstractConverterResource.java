@@ -1,5 +1,7 @@
 package com.graphhopper.converter.resources;
 
+import javax.ws.rs.BadRequestException;
+
 /**
  * @author Robin Boldt
  */
@@ -14,15 +16,18 @@ abstract class AbstractConverterResource {
 
     void checkInvalidParameter(boolean reverse, String query, String point) {
         if (reverse) {
+            if (point == null || point.isEmpty()) {
+                throw new BadRequestException("When setting reverse=true you have to pass the point parameter");
+            }
             String[] cords = point.split(",");
             if (cords.length != 2) {
-                throw new IllegalArgumentException("You have to pass the point in the format \"lat,lon\"");
+                throw new BadRequestException("You have to pass the point in the format \"lat,lon\"");
             }
             double lat = Double.parseDouble(cords[0]);
             double lon = Double.parseDouble(cords[1]);
         } else {
-            if (query.isEmpty()) {
-                throw new IllegalArgumentException("q cannot be empty");
+            if (query == null || query.isEmpty()) {
+                throw new BadRequestException("q cannot be empty");
             }
         }
     }

@@ -88,19 +88,12 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
     }
 
     private WebTarget buildForwardTarget(String query) {
-        if (query == null || query.isEmpty()) {
-            throw new IllegalArgumentException("The q parameter cannot be empty");
-        }
-
         return jerseyClient.
                 target(nominatimUrl).
                 queryParam("q", query);
     }
 
     private WebTarget buildReverseTarget(String point) {
-        if (point == null || point.isEmpty()) {
-            throw new IllegalArgumentException("When setting reverse=true you have to pass the point parameter");
-        }
         String[] cords = point.split(",");
         String lat = cords[0];
         String lon = cords[1];
