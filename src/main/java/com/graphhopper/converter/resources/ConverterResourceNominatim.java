@@ -19,7 +19,7 @@ import java.util.List;
  * @author Robin Boldt
  */
 @Path("/nominatim")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces("application/json; charset=utf-8")
 public class ConverterResourceNominatim {
 
     private final String nominatimUrl;

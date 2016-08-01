@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author Peter Karich
  */
 @Path("/opencagedata")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces("application/json; charset=utf-8")
 public class ConverterResourceOpenCageData {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterResourceOpenCageData.class);
