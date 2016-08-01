@@ -20,8 +20,9 @@ public class GHEntry {
     private String city;
     private String state;
     private String street;
+    private String houseNumber;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city, String state, String street) {
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city, String state, String street, String houseNumber) {
         this.osmId = osmId;
         this.osmType = type;
         this.point = new Point(lat, lng);
@@ -30,6 +31,7 @@ public class GHEntry {
         this.city = city;
         this.state = state;
         this.street = street;
+        this.houseNumber = houseNumber;
     }
 
     @JsonProperty
@@ -110,6 +112,16 @@ public class GHEntry {
     @JsonProperty
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    @JsonProperty("house_number")
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    @JsonProperty("house_number")
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     public class Point {

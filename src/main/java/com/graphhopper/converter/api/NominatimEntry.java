@@ -36,26 +36,14 @@ public class NominatimEntry {
         this.address = new Address();
     }
 
-    public boolean isStreet() {
-        return "highway".equals(this.classString);
-    }
-
-    /**
-     * Returns the Street name if this entry is a street, return null otherwise.
-     * We return null, since we do not serialize null properties.
-     */
     public String getStreetName() {
-        if (!isStreet()) {
-            return null;
-        }
         if (this.address.road != null) {
             return this.address.road;
         }
         if (this.address.pedestrian != null) {
             return this.address.pedestrian;
         }
-
-        throw new IllegalStateException("If entry is a street, we have to return a street for: " + this.displayName);
+        return null;
     }
 
     @JsonProperty("osm_id")
@@ -157,6 +145,8 @@ public class NominatimEntry {
         public String road;
         @JsonProperty("pedestrian")
         public String pedestrian;
+        @JsonProperty("house_number")
+        public String houseNumber;
 
         public String getGHCity() {
             if (city != null) {

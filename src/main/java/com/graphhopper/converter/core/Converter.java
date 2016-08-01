@@ -13,7 +13,7 @@ public class Converter {
 
     public static GHEntry convertFromNominatim(NominatimEntry response) {
         GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(), response.getDisplayName(),
-                response.getAddress().country, response.getAddress().getGHCity(), response.getAddress().state, response.getStreetName());
+                response.getAddress().country, response.getAddress().getGHCity(), response.getAddress().state, response.getStreetName(), response.getAddress().houseNumber);
         return rsp;
     }
 
@@ -65,7 +65,7 @@ public class Converter {
 
         GHEntry rsp = new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
                 response.getFormatted(), response.getComponents().country, response.getComponents().getGHCity(),
-                response.getComponents().state, response.getStreetName());
+                response.getComponents().state, response.getStreetName(), response.getComponents().houseNumber);
 
         return rsp;
     }

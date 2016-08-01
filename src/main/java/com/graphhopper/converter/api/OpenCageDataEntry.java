@@ -62,6 +62,8 @@ public class OpenCageDataEntry {
         public String road;
         @JsonProperty("pedestrian")
         public String pedestrian;
+        @JsonProperty("house_number")
+        public String houseNumber;
         @JsonProperty("county")
         public String county;
         @JsonProperty("state")
@@ -101,26 +103,14 @@ public class OpenCageDataEntry {
         this.components = components;
     }
 
-    public boolean isStreet() {
-        return "road".equals(this.components.type);
-    }
-
-    /**
-     * Returns the Street name if this entry is a street, return null otherwise.
-     * We return null, since we do not serialize null properties.
-     */
     public String getStreetName() {
-        if (!isStreet()) {
-            return null;
-        }
         if (this.components.road != null) {
             return this.components.road;
         }
         if (this.components.pedestrian != null) {
             return this.components.pedestrian;
         }
-
-        throw new IllegalStateException("If entry is a street, we have to return a street for: "+this.formatted);
+        return null;
     }
 
     @JsonProperty("formatted")
