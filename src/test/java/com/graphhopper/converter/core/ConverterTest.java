@@ -37,8 +37,8 @@ public class ConverterTest {
         nominatimResponse.setDisplayName("test");
         nominatimResponse.setLat(1);
         nominatimResponse.setLon(1);
-        nominatimResponse.getAddress().setTown("townie");
-        nominatimResponse.getAddress().setCountry("gb");
+        nominatimResponse.getAddress().town = "townie";
+        nominatimResponse.getAddress().country = "gb";
         GHEntry ghResponse = Converter.convertFromNominatim(nominatimResponse);
 
         assertEquals(1L, (long) ghResponse.getOsmId());
@@ -47,5 +47,28 @@ public class ConverterTest {
         assertEquals("test", ghResponse.getName());
         assertEquals("gb", ghResponse.getCountry());
         assertEquals("townie", ghResponse.getCity());
+    }
+
+    @Test
+    public void testStreetEntry() {
+        // Build a Response
+        NominatimEntry nominatimResponse = new NominatimEntry();
+        nominatimResponse.setOsmId(1L);
+        nominatimResponse.setDisplayName("test");
+        nominatimResponse.setLat(1);
+        nominatimResponse.setLon(1);
+        nominatimResponse.setClassString("highway");
+        nominatimResponse.getAddress().town = "townie";
+        nominatimResponse.getAddress().country = "gb";
+        nominatimResponse.getAddress().pedestrian = "secret way";
+        GHEntry ghResponse = Converter.convertFromNominatim(nominatimResponse);
+
+        assertEquals(1L, (long) ghResponse.getOsmId());
+        assertEquals(1, ghResponse.getPoint().getLat(), 0.001);
+        assertEquals(1, ghResponse.getPoint().getLng(), 0.001);
+        assertEquals("test", ghResponse.getName());
+        assertEquals("gb", ghResponse.getCountry());
+        assertEquals("townie", ghResponse.getCity());
+        assertEquals("secret way", ghResponse.getStreet());
     }
 }
