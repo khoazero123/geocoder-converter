@@ -16,6 +16,7 @@ public class NominatimEntry {
     private double lon;
 
     private String displayName;
+    private String classString;
 
     private Address address;
 
@@ -27,12 +28,37 @@ public class NominatimEntry {
         this.displayName = displayName;
 
         this.address = new Address();
-        address.setCountry(country);
-        address.setCity(city);
+        address.country = country;
+        address.city = city;
     }
 
     public NominatimEntry() {
         this.address = new Address();
+    }
+
+    public boolean isStreet() {
+        if ("highway".equals(this.classString)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the Street name if this entry is a street, return null otherwise.
+     * We return null, since we do not serialize null properties.
+     */
+    public String getStreetNameOrNull() {
+        if (!isStreet()) {
+            return null;
+        }
+        if (this.address.road != null) {
+            return this.address.road;
+        }
+        if (this.address.pedestrian != null) {
+            return this.address.pedestrian;
+        }
+
+        throw new IllegalStateException("If entry is a street, we have to return a street for: " + this.displayName);
     }
 
     @JsonProperty("osm_id")
@@ -102,18 +128,38 @@ public class NominatimEntry {
         this.address = address;
     }
 
+    @JsonProperty("class")
+    public String getClassString() {
+        return classString;
+    }
+
+    @JsonProperty("class")
+    public void setClassString(String classString) {
+        this.classString = classString;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class Address {
 
         public Address() {
         }
 
-        private String country;
-        private String city;
-        private String state;
-        private String town;
-        private String village;
-        private String hamlet;
+        @JsonProperty
+        public String country;
+        @JsonProperty
+        public String city;
+        @JsonProperty
+        public String state;
+        @JsonProperty
+        public String town;
+        @JsonProperty
+        public String village;
+        @JsonProperty
+        public String hamlet;
+        @JsonProperty("road")
+        public String road;
+        @JsonProperty("pedestrian")
+        public String pedestrian;
 
         public String getGHCity() {
             if (city != null) {
@@ -126,66 +172,6 @@ public class NominatimEntry {
                 return village;
             }
             return hamlet;
-        }
-
-        @JsonProperty
-        public String getCountry() {
-            return country;
-        }
-
-        @JsonProperty
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
-        @JsonProperty
-        public String getCity() {
-            return city;
-        }
-
-        @JsonProperty
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        @JsonProperty
-        public String getVillage() {
-            return village;
-        }
-
-        @JsonProperty
-        public void setVillage(String village) {
-            this.village = village;
-        }
-
-        @JsonProperty
-        public String getHamlet() {
-            return hamlet;
-        }
-
-        @JsonProperty
-        public void setHamlet(String hamlet) {
-            this.hamlet = hamlet;
-        }
-
-        @JsonProperty
-        public String getTown() {
-            return town;
-        }
-
-        @JsonProperty
-        public void setTown(String town) {
-            this.town = town;
-        }
-
-        @JsonProperty
-        public String getState() {
-            return state;
-        }
-
-        @JsonProperty
-        public void setState(String state) {
-            this.state = state;
         }
     }
 }
