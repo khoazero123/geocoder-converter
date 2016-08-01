@@ -102,17 +102,14 @@ public class OpenCageDataEntry {
     }
 
     public boolean isStreet() {
-        if ("road".equals(this.components.type)) {
-            return true;
-        }
-        return false;
+        return "road".equals(this.components.type);
     }
 
     /**
      * Returns the Street name if this entry is a street, return null otherwise.
      * We return null, since we do not serialize null properties.
      */
-    public String getStreetNameOrNull() {
+    public String getStreetName() {
         if (!isStreet()) {
             return null;
         }

@@ -10,6 +10,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +37,15 @@ public class ConverterResourceOpenCageData {
 
     @GET
     @Timed
-    public Response handle(@NotNull @QueryParam("q") String query,
-            @QueryParam("limit") @DefaultValue("5") int limit,
-            @QueryParam("locale") @DefaultValue("") String locale,
-            @QueryParam("countrycode") @DefaultValue("") String countrycode,
-            @QueryParam("bounds") @DefaultValue("") String bounds,
-            @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
-            @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id            
+    public Response handle(@QueryParam("q") @DefaultValue("") String query,
+                           @QueryParam("limit") @DefaultValue("5") int limit,
+                           @QueryParam("locale") @DefaultValue("") String locale,
+                           @QueryParam("countrycode") @DefaultValue("") String countrycode,
+                           @QueryParam("bounds") @DefaultValue("") String bounds,
+                           @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
+                           @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id,
+                           @QueryParam("reverse") @DefaultValue("false") boolean reverse,
+                           @QueryParam("point") @DefaultValue("false") String point
     ) {
         if (limit > 10) {
             limit = 10;
@@ -50,7 +53,7 @@ public class ConverterResourceOpenCageData {
 
         WebTarget target = jerseyClient.
                 target(url).
-                queryParam("q", query).
+                queryParam("q", reverse?point:query).
                 queryParam("key", key).
                 queryParam("limit", limit);
 
