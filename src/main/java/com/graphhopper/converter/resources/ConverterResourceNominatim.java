@@ -5,12 +5,10 @@ import com.graphhopper.converter.api.NominatimEntry;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
 
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.List;
  */
 @Path("/nominatim")
 @Produces("application/json; charset=utf-8")
-public class ConverterResourceNominatim {
+public class ConverterResourceNominatim extends AbstractConverterResource {
 
     private final String nominatimUrl;
     private final String nominatimReverseUrl;
@@ -45,9 +43,8 @@ public class ConverterResourceNominatim {
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("false") String point
     ) {
-        if (limit > 10) {
-            limit = 10;
-        }
+        limit = fixLimit(limit);
+        checkInvalidParameter(reverse, query, point);
 
         WebTarget target;
         if (reverse) {
@@ -105,10 +102,6 @@ public class ConverterResourceNominatim {
             throw new IllegalArgumentException("When setting reverse=true you have to pass the point parameter");
         }
         String[] cords = point.split(",");
-        if (cords.length != 2) {
-            throw new IllegalArgumentException("You have to pass the point in the format \"lat,lon\"");
-        }
-
         String lat = cords[0];
         String lon = cords[1];
         return jerseyClient.
