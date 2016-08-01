@@ -4,12 +4,11 @@ import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.OpenCageDataResponse;
 import com.graphhopper.converter.core.Converter;
 
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/opencagedata")
 @Produces("application/json; charset=utf-8")
-public class ConverterResourceOpenCageData {
+public class ConverterResourceOpenCageData extends AbstractConverterResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterResourceOpenCageData.class);
     private final String url;
@@ -36,21 +35,22 @@ public class ConverterResourceOpenCageData {
 
     @GET
     @Timed
-    public Response handle(@NotNull @QueryParam("q") String query,
-            @QueryParam("limit") @DefaultValue("5") int limit,
-            @QueryParam("locale") @DefaultValue("") String locale,
-            @QueryParam("countrycode") @DefaultValue("") String countrycode,
-            @QueryParam("bounds") @DefaultValue("") String bounds,
-            @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
-            @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id            
+    public Response handle(@QueryParam("q") @DefaultValue("") String query,
+                           @QueryParam("limit") @DefaultValue("5") int limit,
+                           @QueryParam("locale") @DefaultValue("") String locale,
+                           @QueryParam("countrycode") @DefaultValue("") String countrycode,
+                           @QueryParam("bounds") @DefaultValue("") String bounds,
+                           @QueryParam("nominatim") @DefaultValue("false") boolean nominatim,
+                           @QueryParam("find_osm_id") @DefaultValue("true") boolean find_osm_id,
+                           @QueryParam("reverse") @DefaultValue("false") boolean reverse,
+                           @QueryParam("point") @DefaultValue("false") String point
     ) {
-        if (limit > 10) {
-            limit = 10;
-        }
+        limit = fixLimit(limit);
+        checkInvalidParameter(reverse,query,point);
 
         WebTarget target = jerseyClient.
                 target(url).
-                queryParam("q", query).
+                queryParam("q", reverse?point:query).
                 queryParam("key", key).
                 queryParam("limit", limit);
 

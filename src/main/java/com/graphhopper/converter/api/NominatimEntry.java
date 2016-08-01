@@ -37,17 +37,14 @@ public class NominatimEntry {
     }
 
     public boolean isStreet() {
-        if ("highway".equals(this.classString)) {
-            return true;
-        }
-        return false;
+        return "highway".equals(this.classString);
     }
 
     /**
      * Returns the Street name if this entry is a street, return null otherwise.
      * We return null, since we do not serialize null properties.
      */
-    public String getStreetNameOrNull() {
+    public String getStreetName() {
         if (!isStreet()) {
             return null;
         }
