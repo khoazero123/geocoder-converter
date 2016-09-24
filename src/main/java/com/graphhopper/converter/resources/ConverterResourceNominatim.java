@@ -60,7 +60,7 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
                 queryParam("addressdetails", "1");
 
         if (!locale.isEmpty()) {
-            target = target.queryParam("locale", locale);
+            target = target.queryParam("accept-language", locale);
         }
         if (!viewbox.isEmpty()) {
             target = target.queryParam("viewbox", viewbox);
