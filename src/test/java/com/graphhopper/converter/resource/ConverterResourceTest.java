@@ -75,6 +75,23 @@ public class ConverterResourceTest {
     }
 
     @Test
+    public void testCorrectLocaleCountry() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("testCorrectLocaleCountry");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/nominatim?q=berlin&locale=de-ch", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        GHResponse entry = response.readEntity(GHResponse.class);
+        assertTrue(entry.getLocale().equals("de-CH"));
+    }
+
+    @Test
     public void testIncorrectLocale() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("testIncorrectLocale");
 
@@ -83,6 +100,23 @@ public class ConverterResourceTest {
 
         Response response = client.target(
                 String.format("http://localhost:%d/nominatim?q=berlin&locale=IAmNotValid", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        GHResponse entry = response.readEntity(GHResponse.class);
+        assertTrue(entry.getLocale().equals("en"));
+    }
+
+    @Test
+    public void testIncorrectLocaleCountry() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("testIncorrectLocaleCountry");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/nominatim?q=berlin&locale=de-zz", RULE.getLocalPort()))
                 .request()
                 .get();
 
