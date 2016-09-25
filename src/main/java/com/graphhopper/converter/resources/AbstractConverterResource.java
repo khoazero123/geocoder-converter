@@ -1,6 +1,8 @@
 package com.graphhopper.converter.resources;
 
 import javax.ws.rs.BadRequestException;
+import java.util.Locale;
+import java.util.MissingResourceException;
 
 /**
  * @author Robin Boldt
@@ -32,4 +34,31 @@ abstract class AbstractConverterResource {
         }
     }
 
+    String getLocaleFromParameter(String locale){
+        Locale lo = parseLocale(locale);
+        if (isValid(lo)) {
+            return lo.toLanguageTag();
+        } else {
+            return "en";
+        }
+    }
+
+    // Taken from: http://stackoverflow.com/a/3684832/1548788
+    Locale parseLocale(String locale) {
+        String[] parts = locale.split("_");
+        switch (parts.length) {
+            case 3: return new Locale(parts[0], parts[1], parts[2]);
+            case 2: return new Locale(parts[0], parts[1]);
+            case 1: return new Locale(parts[0]);
+            default: throw new IllegalArgumentException("Invalid locale: " + locale);
+        }
+    }
+
+    boolean isValid(Locale locale) {
+        try {
+            return locale.getISO3Language() != null && locale.getISO3Country() != null;
+        } catch (MissingResourceException e) {
+            return false;
+        }
+    }
 }

@@ -10,6 +10,7 @@ public class GHResponse {
 
     private List<String> copyrights = new ArrayList<String>(5);
     private List<GHEntry> hits;
+    private String locale = "en";
 
     public GHResponse() {
         this(5);
@@ -42,5 +43,15 @@ public class GHResponse {
 
     public List<GHEntry> getHits() {
         return hits;
+    }
+
+    public String getLocale()
+    {
+        return locale;
+    }
+
+    public void setLocale( String locale )
+    {
+        this.locale = locale;
     }
 }

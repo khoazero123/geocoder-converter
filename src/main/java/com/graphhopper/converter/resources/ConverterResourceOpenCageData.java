@@ -63,6 +63,7 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
         }
 
         if (!locale.isEmpty()) {
+            locale = getLocaleFromParameter(locale);
             target = target.queryParam("language", locale);
         }
 
@@ -81,6 +82,6 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
         LOGGER.info("took:" + sw.getTime() / 1000f + " " + target.toString());
 
         OpenCageDataResponse ocdResponse = response.readEntity(OpenCageDataResponse.class);
-        return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status);
+        return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status, locale);
     }
 }
