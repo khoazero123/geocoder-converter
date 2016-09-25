@@ -60,6 +60,7 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
                 queryParam("addressdetails", "1");
 
         if (!locale.isEmpty()) {
+            locale = getLocaleFromParameter(locale);
             target = target.queryParam("accept-language", locale);
         }
         if (!viewbox.isEmpty()) {
@@ -84,7 +85,7 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
             entitiesFromResponse = response.readEntity(new GenericType<List<NominatimEntry>>() {
             });
         }
-        return Converter.convertFromNominatimList(entitiesFromResponse, status);
+        return Converter.convertFromNominatimList(entitiesFromResponse, status, locale);
     }
 
     private WebTarget buildForwardTarget(String query) {

@@ -34,6 +34,8 @@ public class GHEntry {
         this.houseNumber = houseNumber;
     }
 
+    public GHEntry(){}
+
     @JsonProperty
     public String getName() {
         return name;
@@ -133,6 +135,8 @@ public class GHEntry {
             this.lat = lat;
             this.lng = lng;
         }
+
+        public Point(){}
 
         @JsonProperty
         public double getLat() {

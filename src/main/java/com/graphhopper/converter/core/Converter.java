@@ -17,13 +17,16 @@ public class Converter {
         return rsp;
     }
 
-    public static Response convertFromNominatimList(List<NominatimEntry> nominatimResponses, Status status) {
+    public static Response convertFromNominatimList(List<NominatimEntry> nominatimResponses, Status status, String locale) {
         GHResponse ghResponse = new GHResponse(nominatimResponses.size());
         for (NominatimEntry nominatimResponse : nominatimResponses) {
             ghResponse.add(convertFromNominatim(nominatimResponse));
         }
 
         ghResponse.addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        if(!locale.isEmpty()){
+            ghResponse.setLocale(locale);
+        }
         return createResponse(ghResponse, status);
     }
 
@@ -70,7 +73,7 @@ public class Converter {
         return rsp;
     }
 
-    public static Response convertFromOpenCageData(OpenCageDataResponse ocdRsp, Status status) {
+    public static Response convertFromOpenCageData(OpenCageDataResponse ocdRsp, Status status, String locale) {
         List<OpenCageDataEntry> ocdEntries = ocdRsp.results;
         GHResponse ghResponse = new GHResponse(ocdEntries.size());
         for (OpenCageDataEntry ocdResponse : ocdEntries) {
@@ -78,6 +81,9 @@ public class Converter {
         }
 
         ghResponse.addCopyright("OpenCageData").addCopyright("OpenStreetMap").addCopyright("GraphHopper");
+        if(!locale.isEmpty()){
+            ghResponse.setLocale(locale);
+        }
         return createResponse(ghResponse, status);
     }
 
