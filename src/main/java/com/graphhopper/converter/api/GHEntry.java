@@ -21,8 +21,10 @@ public class GHEntry {
     private String state;
     private String street;
     private String houseNumber;
+    private String postcode;
+    private String osmValue;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city, String state, String street, String houseNumber) {
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city, String state, String street, String houseNumber, String postcode, String osmValue) {
         this.osmId = osmId;
         this.osmType = type;
         this.point = new Point(lat, lng);
@@ -32,6 +34,8 @@ public class GHEntry {
         this.state = state;
         this.street = street;
         this.houseNumber = houseNumber;
+        this.postcode = postcode;
+        this.osmValue = osmValue;
     }
 
     public GHEntry(){}
@@ -124,6 +128,26 @@ public class GHEntry {
     @JsonProperty("house_number")
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
+    }
+
+    @JsonProperty
+    public String getPostcode() {
+        return postcode;
+    }
+
+    @JsonProperty
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    @JsonProperty("osm_value")
+    public String getOsmValue() {
+        return osmValue;
+    }
+
+    @JsonProperty("osm_value")
+    public void setOsmValue(String osmValue) {
+        this.osmValue = osmValue;
     }
 
     public class Point {

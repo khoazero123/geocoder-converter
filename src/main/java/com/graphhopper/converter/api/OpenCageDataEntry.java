@@ -58,10 +58,6 @@ public class OpenCageDataEntry {
         public String country;
         @JsonProperty("country_code")
         public String countryCode;
-        @JsonProperty("road")
-        public String road;
-        @JsonProperty("pedestrian")
-        public String pedestrian;
         @JsonProperty("house_number")
         public String houseNumber;
         @JsonProperty("county")
@@ -77,6 +73,20 @@ public class OpenCageDataEntry {
         public String village;
         @JsonProperty("hamlet")
         public String hamlet;
+        @JsonProperty
+        public String postcode;
+
+        // Possible Street names TODO: Not sure what tags can be returned here
+        @JsonProperty
+        public String road;
+        @JsonProperty
+        public String pedestrian;
+        @JsonProperty
+        public String path;
+        @JsonProperty
+        public String footway;
+        @JsonProperty
+        public String construction;
 
         public String getGHCity() {
             if (city != null) {
@@ -90,6 +100,7 @@ public class OpenCageDataEntry {
             }
             return hamlet;
         }
+
     }
 
     public OpenCageDataEntry() {
@@ -110,7 +121,13 @@ public class OpenCageDataEntry {
         if (this.components.pedestrian != null) {
             return this.components.pedestrian;
         }
-        return null;
+        if (this.components.path != null) {
+            return this.components.path;
+        }
+        if (this.components.footway != null) {
+            return this.components.footway;
+        }
+        return this.components.construction;
     }
 
     @JsonProperty("formatted")

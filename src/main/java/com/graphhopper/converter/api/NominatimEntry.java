@@ -18,6 +18,9 @@ public class NominatimEntry {
     private String displayName;
     private String classString;
 
+    // This is not the omsType
+    private String type;
+
     private Address address;
 
     public NominatimEntry(long osmId, String type, double lat, double lon, String displayName, String country, String city) {
@@ -43,7 +46,13 @@ public class NominatimEntry {
         if (this.address.pedestrian != null) {
             return this.address.pedestrian;
         }
-        return null;
+        if (this.address.path != null) {
+            return this.address.path;
+        }
+        if (this.address.footway != null) {
+            return this.address.footway;
+        }
+        return this.address.construction;
     }
 
     @JsonProperty("osm_id")
@@ -123,6 +132,16 @@ public class NominatimEntry {
         this.classString = classString;
     }
 
+    @JsonProperty
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public class Address {
 
@@ -141,12 +160,22 @@ public class NominatimEntry {
         public String village;
         @JsonProperty
         public String hamlet;
-        @JsonProperty("road")
-        public String road;
-        @JsonProperty("pedestrian")
-        public String pedestrian;
         @JsonProperty("house_number")
         public String houseNumber;
+        @JsonProperty
+        public String postcode;
+
+        // Possible Street names TODO: Not sure what tags can be returned here
+        @JsonProperty
+        public String road;
+        @JsonProperty
+        public String pedestrian;
+        @JsonProperty
+        public String path;
+        @JsonProperty
+        public String footway;
+        @JsonProperty
+        public String construction;
 
         public String getGHCity() {
             if (city != null) {

@@ -12,8 +12,10 @@ import java.util.List;
 public class Converter {
 
     public static GHEntry convertFromNominatim(NominatimEntry response) {
-        GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(), response.getDisplayName(),
-                response.getAddress().country, response.getAddress().getGHCity(), response.getAddress().state, response.getStreetName(), response.getAddress().houseNumber);
+        GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(),
+                response.getDisplayName(), response.getAddress().country, response.getAddress().getGHCity(),
+                response.getAddress().state, response.getStreetName(), response.getAddress().houseNumber,
+                response.getAddress().postcode, response.getType());
         return rsp;
     }
 
@@ -24,7 +26,7 @@ public class Converter {
         }
 
         ghResponse.addCopyright("OpenStreetMap").addCopyright("GraphHopper");
-        if(!locale.isEmpty()){
+        if (!locale.isEmpty()) {
             ghResponse.setLocale(locale);
         }
         return createResponse(ghResponse, status);
@@ -68,7 +70,8 @@ public class Converter {
 
         GHEntry rsp = new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
                 response.getFormatted(), response.getComponents().country, response.getComponents().getGHCity(),
-                response.getComponents().state, response.getStreetName(), response.getComponents().houseNumber);
+                response.getComponents().state, response.getStreetName(), response.getComponents().houseNumber,
+                response.getComponents().postcode, response.getComponents().type);
 
         return rsp;
     }
@@ -81,7 +84,7 @@ public class Converter {
         }
 
         ghResponse.addCopyright("OpenCageData").addCopyright("OpenStreetMap").addCopyright("GraphHopper");
-        if(!locale.isEmpty()){
+        if (!locale.isEmpty()) {
             ghResponse.setLocale(locale);
         }
         return createResponse(ghResponse, status);
