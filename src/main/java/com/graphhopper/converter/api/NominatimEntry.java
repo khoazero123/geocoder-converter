@@ -18,10 +18,10 @@ public class NominatimEntry {
     private String displayName;
     private String classString;
 
-    // This is not the omsType
+    // This is not the omsType, but for example "restaurant" or "tertiary"
     private String type;
 
-    private Address address;
+    public Address address;
 
     public NominatimEntry(long osmId, String type, double lat, double lon, String displayName, String country, String city) {
         this.osmId = osmId;
@@ -37,22 +37,6 @@ public class NominatimEntry {
 
     public NominatimEntry() {
         this.address = new Address();
-    }
-
-    public String getStreetName() {
-        if (this.address.road != null) {
-            return this.address.road;
-        }
-        if (this.address.pedestrian != null) {
-            return this.address.pedestrian;
-        }
-        if (this.address.path != null) {
-            return this.address.path;
-        }
-        if (this.address.footway != null) {
-            return this.address.footway;
-        }
-        return this.address.construction;
     }
 
     @JsonProperty("osm_id")
@@ -143,51 +127,11 @@ public class NominatimEntry {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Address {
+    public class Address extends AbstractAddress{
 
         public Address() {
         }
 
-        @JsonProperty
-        public String country;
-        @JsonProperty
-        public String city;
-        @JsonProperty
-        public String state;
-        @JsonProperty
-        public String town;
-        @JsonProperty
-        public String village;
-        @JsonProperty
-        public String hamlet;
-        @JsonProperty("house_number")
-        public String houseNumber;
-        @JsonProperty
-        public String postcode;
 
-        // Possible Street names TODO: Not sure what tags can be returned here
-        @JsonProperty
-        public String road;
-        @JsonProperty
-        public String pedestrian;
-        @JsonProperty
-        public String path;
-        @JsonProperty
-        public String footway;
-        @JsonProperty
-        public String construction;
-
-        public String getGHCity() {
-            if (city != null) {
-                return city;
-            }
-            if (town != null) {
-                return town;
-            }
-            if (village != null) {
-                return village;
-            }
-            return hamlet;
-        }
     }
 }
