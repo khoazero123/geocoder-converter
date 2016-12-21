@@ -24,7 +24,7 @@ public class GHEntry {
     private String postcode;
     private String osmValue;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String country, String city, String state, String street, String houseNumber, String postcode, String osmValue) {
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, String country, String city, String state, String street, String houseNumber, String postcode) {
         this.osmId = osmId;
         this.osmType = type;
         this.point = new Point(lat, lng);
@@ -36,6 +36,10 @@ public class GHEntry {
         this.houseNumber = houseNumber;
         this.postcode = postcode;
         this.osmValue = osmValue;
+    }
+
+    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, AbstractAddress address) {
+        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.getStreetName(), address.houseNumber, address.postcode);
     }
 
     public GHEntry(){}
