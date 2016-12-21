@@ -12,7 +12,7 @@ public class OpenCageDataEntry {
     private String formatted;
     private OCDAnnoations annotations;
     private OCDGeometry geometry;
-    private OCDComponents components;
+    public OCDComponents components;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class OCDAnnoations {
@@ -47,49 +47,17 @@ public class OpenCageDataEntry {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class OCDComponents {
+    public static class OCDComponents extends AbstractAddress{
 
         public OCDComponents() {
         }
 
         @JsonProperty("_type")
         public String type;
-        @JsonProperty("country")
-        public String country;
         @JsonProperty("country_code")
         public String countryCode;
-        @JsonProperty("road")
-        public String road;
-        @JsonProperty("pedestrian")
-        public String pedestrian;
-        @JsonProperty("house_number")
-        public String houseNumber;
         @JsonProperty("county")
         public String county;
-        @JsonProperty("state")
-        public String state;
-
-        @JsonProperty("city")
-        public String city;
-        @JsonProperty("town")
-        public String town;
-        @JsonProperty("village")
-        public String village;
-        @JsonProperty("hamlet")
-        public String hamlet;
-
-        public String getGHCity() {
-            if (city != null) {
-                return city;
-            }
-            if (town != null) {
-                return town;
-            }
-            if (village != null) {
-                return village;
-            }
-            return hamlet;
-        }
     }
 
     public OpenCageDataEntry() {
@@ -101,16 +69,6 @@ public class OpenCageDataEntry {
         this.geometry.lat = lat;
         this.geometry.lng = lon;
         this.components = components;
-    }
-
-    public String getStreetName() {
-        if (this.components.road != null) {
-            return this.components.road;
-        }
-        if (this.components.pedestrian != null) {
-            return this.components.pedestrian;
-        }
-        return null;
     }
 
     @JsonProperty("formatted")

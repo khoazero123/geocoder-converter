@@ -18,7 +18,10 @@ public class NominatimEntry {
     private String displayName;
     private String classString;
 
-    private Address address;
+    // This is not the omsType, but for example "restaurant" or "tertiary"
+    private String type;
+
+    public Address address;
 
     public NominatimEntry(long osmId, String type, double lat, double lon, String displayName, String country, String city) {
         this.osmId = osmId;
@@ -34,16 +37,6 @@ public class NominatimEntry {
 
     public NominatimEntry() {
         this.address = new Address();
-    }
-
-    public String getStreetName() {
-        if (this.address.road != null) {
-            return this.address.road;
-        }
-        if (this.address.pedestrian != null) {
-            return this.address.pedestrian;
-        }
-        return null;
     }
 
     @JsonProperty("osm_id")
@@ -123,42 +116,22 @@ public class NominatimEntry {
         this.classString = classString;
     }
 
+    @JsonProperty
+    public String getType() {
+        return type;
+    }
+
+    @JsonProperty
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Address {
+    public class Address extends AbstractAddress{
 
         public Address() {
         }
 
-        @JsonProperty
-        public String country;
-        @JsonProperty
-        public String city;
-        @JsonProperty
-        public String state;
-        @JsonProperty
-        public String town;
-        @JsonProperty
-        public String village;
-        @JsonProperty
-        public String hamlet;
-        @JsonProperty("road")
-        public String road;
-        @JsonProperty("pedestrian")
-        public String pedestrian;
-        @JsonProperty("house_number")
-        public String houseNumber;
 
-        public String getGHCity() {
-            if (city != null) {
-                return city;
-            }
-            if (town != null) {
-                return town;
-            }
-            if (village != null) {
-                return village;
-            }
-            return hamlet;
-        }
     }
 }
