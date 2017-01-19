@@ -25,8 +25,17 @@ abstract class AbstractConverterResource {
             if (cords.length != 2) {
                 throw new BadRequestException("You have to pass the point in the format \"lat,lon\"");
             }
-            double lat = Double.parseDouble(cords[0]);
-            double lon = Double.parseDouble(cords[1]);
+            double lat;
+            double lon;
+            try {
+                lat = Double.parseDouble(cords[0]);
+                lon = Double.parseDouble(cords[1]);
+            } catch (RuntimeException e) {
+                throw new BadRequestException("The coordinates of point need to be valid numbers");
+            }
+            if (Double.isNaN(lat) || Double.isNaN(lon) || lat < -180 || lat > 180 || lon < -90 || lon > 90) {
+                throw new BadRequestException("The coordinates of point need to be valid coordinates");
+            }
         } else {
             if (query == null || query.isEmpty()) {
                 throw new BadRequestException("q cannot be empty");

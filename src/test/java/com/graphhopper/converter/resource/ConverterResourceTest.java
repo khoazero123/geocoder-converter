@@ -124,4 +124,19 @@ public class ConverterResourceTest {
         GHResponse entry = response.readEntity(GHResponse.class);
         assertTrue(entry.getLocale().equals("en"));
     }
+
+    @Test
+    public void testIncorrectFormattedPoint() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("testIncorrectFormattedPoint");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/nominatim?reverse=true&point=NaN,NaN", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(400);
+    }
 }
