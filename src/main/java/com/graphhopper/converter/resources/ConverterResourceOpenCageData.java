@@ -2,6 +2,7 @@ package com.graphhopper.converter.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.OpenCageDataResponse;
+import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
 
 import javax.ws.rs.*;
@@ -10,8 +11,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class requests the geocoding service from opencagedata.com
@@ -22,7 +21,6 @@ import org.slf4j.LoggerFactory;
 @Produces("application/json; charset=utf-8")
 public class ConverterResourceOpenCageData extends AbstractConverterResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConverterResourceOpenCageData.class);
     private final String url;
     private final String key;
     private final Client jerseyClient;
@@ -46,11 +44,11 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
                            @QueryParam("point") @DefaultValue("false") String point
     ) {
         limit = fixLimit(limit);
-        checkInvalidParameter(reverse,query,point);
+        checkInvalidParameter(reverse, query, point);
 
         WebTarget target = jerseyClient.
                 target(url).
-                queryParam("q", reverse?point:query).
+                queryParam("q", reverse ? point : query).
                 queryParam("key", key).
                 queryParam("limit", limit);
 
@@ -80,6 +78,9 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
         Response response = target.request().accept("application/json").get();
         sw.stop();
         LOGGER.info("took:" + sw.getTime() / 1000f + " " + target.toString());
+
+        Status status = new Status(response.getStatus(), response.getStatusInfo().getReasonPhrase());
+        failIfResponseNotSuccessful(target, status);
 
         OpenCageDataResponse ocdResponse = response.readEntity(OpenCageDataResponse.class);
         return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status, locale);
