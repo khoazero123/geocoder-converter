@@ -71,7 +71,7 @@ abstract class AbstractConverterResource {
         // TODO Maybe limit to == 200?
         if (status.code < 200 || status.code >= 300) {
             LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
-            throw new BadRequestException("The geocoding provider responded with an unexpected error. If this error happens again, please contact our support team support@graphhopper.com.");
+            throw new BadRequestException("The geocoding provider responded with an unexpected error. Please contact our support team support@graphhopper.com.");
         }
     }
 }
