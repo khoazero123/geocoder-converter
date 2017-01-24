@@ -75,8 +75,9 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
 
         Response response = target.request().accept("application/json").
                 get();
-
         Status status = new Status(response.getStatus(), response.getStatusInfo().getReasonPhrase());
+        failIfResponseNotSuccessful(target, status);
+
         List<NominatimEntry> entitiesFromResponse;
         if (reverse) {
             entitiesFromResponse = new ArrayList<>(1);

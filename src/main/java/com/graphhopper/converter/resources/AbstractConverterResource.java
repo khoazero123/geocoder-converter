@@ -1,6 +1,11 @@
 package com.graphhopper.converter.resources;
 
+import com.graphhopper.converter.api.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.client.WebTarget;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
@@ -8,6 +13,8 @@ import java.util.MissingResourceException;
  * @author Robin Boldt
  */
 abstract class AbstractConverterResource {
+
+    protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     int fixLimit(int limit) {
         if (limit > 10) {
@@ -43,7 +50,7 @@ abstract class AbstractConverterResource {
         }
     }
 
-    String getLocaleFromParameter(String locale){
+    String getLocaleFromParameter(String locale) {
         Locale lo = Locale.forLanguageTag(locale);
         if (isValid(lo)) {
             return lo.toLanguageTag();
@@ -57,6 +64,14 @@ abstract class AbstractConverterResource {
             return locale.getISO3Language() != null && locale.getISO3Country() != null && !locale.toLanguageTag().equals("und");
         } catch (MissingResourceException e) {
             return false;
+        }
+    }
+
+    void failIfResponseNotSuccessful(WebTarget target, Status status) {
+        // TODO Maybe limit to == 200?
+        if (status.code < 200 || status.code >= 300) {
+            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            throw new BadRequestException("The geocoding provider responded with an unexpected error.");
         }
     }
 }
