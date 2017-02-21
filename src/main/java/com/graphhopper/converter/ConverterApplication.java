@@ -39,9 +39,9 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
     public void run(ConverterConfiguration converterConfiguration, Environment environment) throws Exception {
 
         JerseyClientConfiguration cfg = converterConfiguration.getJerseyClientConfiguration();
-        cfg.setTimeout(Duration.seconds(5));
-        cfg.setConnectionTimeout(Duration.seconds(5));
-        cfg.setConnectionRequestTimeout(Duration.seconds(5));
+        cfg.setTimeout(Duration.seconds(10));
+        cfg.setConnectionTimeout(Duration.seconds(10));
+        cfg.setConnectionRequestTimeout(Duration.seconds(10));
 
         final Client client = new JerseyClientBuilder(environment).using(cfg)
                 .build(getName());
