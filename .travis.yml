@@ -8,7 +8,7 @@ install: true
 script: mvn clean test
 notifications:
   email:
-    - boldtrn@gmail.com
+    - github@graphhopper.com
 
 # enable container-based stack
 sudo: false
