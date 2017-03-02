@@ -3,7 +3,7 @@
 Converts a geocoding response like from Nominatim or OpenCageData to a GraphHopper response.
 A user queries this API and the converter is then querying Nominatim getting the corresponding response and converting it to the GraphHopper response layout.
 
-[![Build Status](https://travis-ci.org/boldtrn/graphhopper-geocoder-converter.svg?branch=master)](https://travis-ci.org/boldtrn/graphhopper-geocoder-converter)
+[![Build Status](https://travis-ci.org/graphhopper/geocoder-converter.svg?branch=master)](https://travis-ci.org/graphhopper/geocoder-converter)
 
 ## Query Interface
 
