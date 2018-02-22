@@ -15,7 +15,6 @@ public class ConverterTest {
 
     @Test
     public void testConvert() {
-
         // Build a Response
         NominatimEntry nominatimResponse = new NominatimEntry(1L, "node", 1, 1, "test", "de", "Berlin");
         assertEquals("N", nominatimResponse.getGHOsmType());
@@ -91,7 +90,6 @@ public class ConverterTest {
     	GHEntry ghResponse  = Converter.convertFromGisgraphyAddress(city);
     	checkGisgraphyEntity(city, ghResponse);
     }
-    
     
     @Test
     public void testGisgraphyWithAddress(){

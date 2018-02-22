@@ -68,7 +68,6 @@ public class ConverterResourceGisgraphyTest {
 		GHResponse entry = response.readEntity(GHResponse.class);
 		assertTrue(entry.getHits().size()>0);
 
-
 	}
 
 	@Test

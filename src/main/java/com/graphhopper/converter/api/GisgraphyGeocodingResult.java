@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GisgraphyGeocodingResult {
 
-
     public String numFound;
     public List<GisgraphyAddressEntry> result;
     public Status status;
@@ -19,6 +18,5 @@ public class GisgraphyGeocodingResult {
     public String toString() {
         return "results:" + result.size();
     }
-
 
 }

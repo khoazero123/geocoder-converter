@@ -38,7 +38,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
     private static final String SEARCH_LIMIT_PARAMETER = "to";
     private static final String SEARCH_QUERY_PARAMETER = "q";
 
-
     private final String geocodingUrl;
     private final String reverseGeocodingUrl;
     private final String searchURL;
@@ -75,7 +74,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
             lng = cords[1];
         }
 
-
         WebTarget target;
         if (reverse) {
             target = buildReverseGeocodingTarget(query, lat, lng, radius,
@@ -92,7 +90,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
         Status status = new Status(response.getStatus(), response
                 .getStatusInfo().getReasonPhrase());
         failIfResponseNotSuccessful(target, status);
-
 
         try {
             if (!autocomplete) {
@@ -114,7 +111,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
         }
     }
 
-
     private void checkParameters(String query, boolean reverse, boolean autocomplete, String point) {
         super.checkInvalidParameter(reverse,query,point);
         if (reverse && autocomplete){
@@ -134,8 +130,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
                 return target;
     }
 
-
-
     private WebTarget buildAutocompleteTarget(String query, String lat,
             String lng, String radius, String country, int limit) {
         WebTarget target = buildBaseTarget(lat, lng, searchURL)
@@ -147,7 +141,6 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
         }
         return target;
     }
-
 
     private WebTarget buildReverseGeocodingTarget(String query, String lat,
             String lng, String radius, String country, int limit) {
@@ -180,6 +173,5 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
         }
         return target;
     }
-
 
 }

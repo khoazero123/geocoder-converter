@@ -33,7 +33,4 @@ public class GisgraphySearchResponseHeader {
         this.qTime = qTime;
     }
 
-
-
-
 }
