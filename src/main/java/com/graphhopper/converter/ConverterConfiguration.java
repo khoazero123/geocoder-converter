@@ -9,17 +9,23 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author Robin Boldt
+ * @author Robin Boldt, David Masclet
  */
 public class ConverterConfiguration extends Configuration {
 
     @NotEmpty
-    private String nominatimUrl = "http://nominatim.openstreetmap.org/search/";
+    private String nominatimURL = "http://nominatim.openstreetmap.org/search/";
     @NotEmpty
-    private String nominatimReverseUrl = "http://nominatim.openstreetmap.org/reverse/";
+    private String nominatimReverseURL = "http://nominatim.openstreetmap.org/reverse/";
     private String nominatimEmail = "";
-    private String openCageDataUrl = "https://api.opencagedata.com/geocode/v1/json";
+
+    private String openCageDataURL = "https://api.opencagedata.com/geocode/v1/json";
     private String openCageDataKey = "";
+
+    private String gisgraphyGeocodingURL = "https://services.gisgraphy.com/geocoding/";
+    private String gisgraphyReverseGeocodingURL ="https://services.gisgraphy.com/reversegeocoding/";
+    private String gisgraphySearchURL =  "https://services.gisgraphy.com/fulltext/";
+    private String gisgraphyAPIKey="";
 
     @Valid
     @NotNull
@@ -27,6 +33,7 @@ public class ConverterConfiguration extends Configuration {
 
     private boolean healthCheck = true;
     private boolean nominatim = true;
+    private boolean gisgraphy = true;
     private boolean opencagedata;
 
     private String ipBlackList = "";
@@ -43,13 +50,13 @@ public class ConverterConfiguration extends Configuration {
     }
 
     @JsonProperty
-    public String getNominatimUrl() {
-        return nominatimUrl;
+    public String getNominatimURL() {
+        return nominatimURL;
     }
 
     @JsonProperty
-    public void setNominatimUrl(String url) {
-        this.nominatimUrl = url;
+    public void setNominatimURL(String url) {
+        this.nominatimURL = url;
     }
 
     @JsonProperty
@@ -73,13 +80,13 @@ public class ConverterConfiguration extends Configuration {
     }
 
     @JsonProperty
-    public String getOpenCageDataUrl() {
-        return openCageDataUrl;
+    public String getOpenCageDataURL() {
+        return openCageDataURL;
     }
 
     @JsonProperty
-    public void setOpenCageDataUrl(String url) {
-        this.openCageDataUrl = url;
+    public void setOpenCageDataURL(String url) {
+        this.openCageDataURL = url;
     }
 
     @JsonProperty
@@ -127,11 +134,63 @@ public class ConverterConfiguration extends Configuration {
         this.ipWhiteList = ipWhiteList;
     }
 
-    public String getNominatimReverseUrl() {
-        return nominatimReverseUrl;
+    @JsonProperty
+    public String getNominatimReverseURL() {
+        return nominatimReverseURL;
     }
 
-    public void setNominatimReverseUrl(String nominatimReverseUrl) {
-        this.nominatimReverseUrl = nominatimReverseUrl;
+    @JsonProperty
+    public void setNominatimReverseURL(String nominatimReverseURL) {
+        this.nominatimReverseURL = nominatimReverseURL;
+    }
+
+    @JsonProperty
+    public String getGisgraphyGeocodingURL() {
+        return gisgraphyGeocodingURL;
+    }
+
+    @JsonProperty
+    public void setGisgraphyGeocodingURL(String gisgraphyGeocodingURL) {
+        this.gisgraphyGeocodingURL = gisgraphyGeocodingURL;
+    }
+
+    @JsonProperty
+    public String getGisgraphyReverseGeocodingURL() {
+        return gisgraphyReverseGeocodingURL;
+    }
+
+    @JsonProperty
+    public void setGisgraphyReverseGeocodingURL(String gisgraphyReverseGeocodingURL) {
+        this.gisgraphyReverseGeocodingURL = gisgraphyReverseGeocodingURL;
+    }
+
+    @JsonProperty
+    public String getGisgraphySearchURL() {
+        return gisgraphySearchURL;
+    }
+
+    @JsonProperty
+    public void setGisgraphySearchURL(String gisgraphySearchURL) {
+        this.gisgraphySearchURL = gisgraphySearchURL;
+    }
+
+    @JsonProperty
+    public String getGisgraphyAPIKey() {
+        return gisgraphyAPIKey;
+    }
+
+    @JsonProperty
+    public void setGisgraphyAPIKey(String gisgraphyAPIKey) {
+        this.gisgraphyAPIKey = gisgraphyAPIKey;
+    }
+
+    @JsonProperty
+    public boolean isGisgraphy() {
+        return gisgraphy;
+    }
+
+    @JsonProperty
+    public void setGisgraphy(boolean gisgraphy) {
+        this.gisgraphy = gisgraphy;
     }
 }
