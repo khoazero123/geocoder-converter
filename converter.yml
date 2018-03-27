@@ -7,11 +7,23 @@ openCageDataURL: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: 
 openCageData: false
 
-gisgraphyGeocodingURL: https://services.gisgraphy.com/geocoding/
-gisgraphyReverseGeocodingURL:  https://services.gisgraphy.com/reversegeocoding/
-gisgraphySearchURL:  https://services.gisgraphy.com/fulltext/
-gisgraphyAPIKey: 
+gisgraphyGeocodingURL: https://premium2.gisgraphy.com/geocoding/
+gisgraphyReverseGeocodingURL:  https://premium2.gisgraphy.com/reversegeocoding/
+gisgraphySearchURL:  https://premium2.gisgraphy.com/fulltext/
+gisgraphyAPIKey:
 
 # e.g. to restrict for local access
 # ipWhiteList:"localhost,127.0.0.1"
 ipWhiteList: ""
+
+server:
+  applicationConnectors:
+  - type: http
+    port: 8080
+  requestLog:
+      appenders: []
+  adminConnectors:
+  - type: http
+    port: 8081
+    # for security reasons bind to localhost
+    bindHost: localhost
