@@ -40,7 +40,7 @@ abstract class AbstractConverterResource {
             } catch (RuntimeException e) {
                 throw new BadRequestException("The coordinates of point need to be valid numbers");
             }
-            if (Double.isNaN(lat) || Double.isNaN(lon) || lat < -180 || lat > 180 || lon < -90 || lon > 90) {
+            if (Double.isNaN(lat) || Double.isNaN(lon) || lon < -180 || lon > 180 || lat < -90 || lat > 90) {
                 throw new BadRequestException("The coordinates of point need to be valid coordinates");
             }
         } else {
