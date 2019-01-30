@@ -1,11 +1,14 @@
 package com.graphhopper.converter.resources;
 
 import com.graphhopper.converter.api.Status;
+import org.apache.http.util.EntityUtils;
+import org.glassfish.jersey.message.internal.EntityInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
@@ -67,11 +70,14 @@ abstract class AbstractConverterResource {
         }
     }
 
-    void failIfResponseNotSuccessful(WebTarget target, Status status) {
-        // TODO Maybe limit to == 200?
+    Status failIfResponseNotSuccessful(WebTarget target, Response response) {
+        Status status = new Status(response.getStatus(), response.getStatusInfo().getReasonPhrase());
         if (status.code < 200 || status.code >= 300) {
+            // avoid connection leaks, see #52
+            response.close();
             LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
             throw new BadRequestException("The geocoding provider responded with an unexpected error.");
         }
+        return status;
     }
 }
