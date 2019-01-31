@@ -48,8 +48,9 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
         WebTarget target = jerseyClient.
                 target(url).
                 queryParam("q", reverse ? point : query).
-                queryParam("key", key).
                 queryParam("limit", limit);
+
+        target = target.queryParam("key", key);
 
         if (!find_osm_id) {
             target = target.queryParam("no_annotations", "1");
