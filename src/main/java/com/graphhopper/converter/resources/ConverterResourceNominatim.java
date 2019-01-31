@@ -73,20 +73,25 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
             target = target.queryParam("bounded", bounded);
         }
 
-        Response response = target.request().accept("application/json").
-                get();
-        Status status = new Status(response.getStatus(), response.getStatusInfo().getReasonPhrase());
-        failIfResponseNotSuccessful(target, status);
+        Response response = target.request().accept("application/json").get();
+        Status status = failIfResponseNotSuccessful(target, response);
 
-        List<NominatimEntry> entitiesFromResponse;
-        if (reverse) {
-            entitiesFromResponse = new ArrayList<>(1);
-            entitiesFromResponse.add(0, response.readEntity(NominatimEntry.class));
-        } else {
-            entitiesFromResponse = response.readEntity(new GenericType<List<NominatimEntry>>() {
-            });
+        try {
+            List<NominatimEntry> entitiesFromResponse;
+            if (reverse) {
+                entitiesFromResponse = new ArrayList<>(1);
+                entitiesFromResponse.add(0, response.readEntity(NominatimEntry.class));
+            } else {
+                entitiesFromResponse = response.readEntity(new GenericType<List<NominatimEntry>>() {
+                });
+            }
+            return Converter.convertFromNominatimList(entitiesFromResponse, status, locale);
+        } catch (Exception e) {
+            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            throw new BadRequestException("error deserializing geocoding feed");
+        } finally {
+            response.close();
         }
-        return Converter.convertFromNominatimList(entitiesFromResponse, status, locale);
     }
 
     private WebTarget buildForwardTarget(String query) {

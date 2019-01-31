@@ -4,13 +4,12 @@ import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.OpenCageDataResponse;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
+import org.apache.commons.lang3.time.StopWatch;
 
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-
-import org.apache.commons.lang3.time.StopWatch;
 
 /**
  * This class requests the geocoding service from opencagedata.com
@@ -80,10 +79,16 @@ public class ConverterResourceOpenCageData extends AbstractConverterResource {
         sw.stop();
         LOGGER.info("took:" + sw.getTime() / 1000f + " " + target.toString());
 
-        Status status = new Status(response.getStatus(), response.getStatusInfo().getReasonPhrase());
-        failIfResponseNotSuccessful(target, status);
+        Status status = failIfResponseNotSuccessful(target, response);
 
-        OpenCageDataResponse ocdResponse = response.readEntity(OpenCageDataResponse.class);
-        return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status, locale);
+        try {
+            OpenCageDataResponse ocdResponse = response.readEntity(OpenCageDataResponse.class);
+            return Converter.convertFromOpenCageData(ocdResponse, ocdResponse.status, locale);
+        } catch (Exception e) {
+            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            throw new BadRequestException("error deserializing geocoding feed");
+        } finally {
+            response.close();
+        }
     }
 }

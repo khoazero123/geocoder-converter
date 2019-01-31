@@ -1,20 +1,15 @@
 package com.graphhopper.converter.resources;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-
 import com.codahale.metrics.annotation.Timed;
 import com.graphhopper.converter.api.GisgraphyGeocodingResult;
 import com.graphhopper.converter.api.GisgraphySearchResult;
 import com.graphhopper.converter.api.Status;
 import com.graphhopper.converter.core.Converter;
+
+import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 /**
  * @author David Masclet
@@ -45,8 +40,8 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
     private final Client jerseyClient;
 
     public ConverterResourceGisgraphy(String geocodingUrl,
-            String reverseGeocodingUrl, String searchURL, String apiKey,
-            Client jerseyClient) {
+                                      String reverseGeocodingUrl, String searchURL, String apiKey,
+                                      Client jerseyClient) {
         this.geocodingUrl = geocodingUrl;
         this.reverseGeocodingUrl = reverseGeocodingUrl;
         this.searchURL = searchURL;
@@ -57,18 +52,18 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
     @GET
     @Timed
     public Response handle(@QueryParam("q") @DefaultValue("") String query,
-            @QueryParam("point") @DefaultValue("") String point,
-            @QueryParam("radius") @DefaultValue("") String radius,
-            @QueryParam("country") @DefaultValue("") String country,
-            @QueryParam("limit") @DefaultValue("5") Integer limit,
-            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
-            @QueryParam("autocomplete") @DefaultValue("false") boolean autocomplete) {
+                           @QueryParam("point") @DefaultValue("") String point,
+                           @QueryParam("radius") @DefaultValue("") String radius,
+                           @QueryParam("country") @DefaultValue("") String country,
+                           @QueryParam("limit") @DefaultValue("5") Integer limit,
+                           @QueryParam("reverse") @DefaultValue("false") boolean reverse,
+                           @QueryParam("autocomplete") @DefaultValue("false") boolean autocomplete) {
         limit = fixLimit(limit);
         checkParameters(query, reverse, autocomplete, point);
 
         String lat = null;
         String lng = null;
-        if (point!=null && !point.isEmpty() && point.indexOf(",")>0){
+        if (point != null && !point.isEmpty() && point.indexOf(",") > 0) {
             String[] cords = point.split(",");
             lat = cords[0];
             lng = cords[1];
@@ -87,84 +82,80 @@ public class ConverterResourceGisgraphy extends AbstractConverterResource {
         }
 
         Response response = target.request().accept("application/json").get();
-        Status status = new Status(response.getStatus(), response
-                .getStatusInfo().getReasonPhrase());
-        failIfResponseNotSuccessful(target, status);
+        Status status = failIfResponseNotSuccessful(target, response);
 
         try {
             if (!autocomplete) {
                 GisgraphyGeocodingResult feed = response
                         .readEntity(GisgraphyGeocodingResult.class);
                 return Converter.convertFromGisgraphyList(feed.result, status);
-            }
-            else {
+            } else {
                 GisgraphySearchResult feed = response
                         .readEntity(GisgraphySearchResult.class);
                 return Converter.convertFromGisgraphySearchList(feed.getResponse(), status);
             }
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target "
-                    + target.getUri() + " the provider returned: "
-                    + status.code + " - " + status.message);
-            throw new BadRequestException(
-                    "error deserializing geocoding feed");
+            LOGGER.error("There was an issue with the target " + target.getUri() + " the provider returned: " + status.code + " - " + status.message);
+            throw new BadRequestException("error deserializing geocoding feed");
+        } finally {
+            response.close();
         }
     }
 
     private void checkParameters(String query, boolean reverse, boolean autocomplete, String point) {
-        super.checkInvalidParameter(reverse,query,point);
-        if (reverse && autocomplete){
+        super.checkInvalidParameter(reverse, query, point);
+        if (reverse && autocomplete) {
             throw new BadRequestException("autocomplete is not available in reverse geocoding request, set reverse or autocomplete to false but not both");
         }
 
     }
 
     private WebTarget buildGeocodingTarget(String query, String lat,
-            String lng, String radius, String country, int limit) {
+                                           String lng, String radius, String country, int limit) {
         WebTarget target = buildBaseTarget(lat, lng, geocodingUrl)
                 .queryParam(ADDRESS_PARAMETER, query);
-                target = addRadiusAndCountryToTarget(radius, country, target);
-                if (limit >0) {
-                    target = target.queryParam(GEOCODING_LIMIT_PARAMETER, limit);
-                }
-                return target;
+        target = addRadiusAndCountryToTarget(radius, country, target);
+        if (limit > 0) {
+            target = target.queryParam(GEOCODING_LIMIT_PARAMETER, limit);
+        }
+        return target;
     }
 
     private WebTarget buildAutocompleteTarget(String query, String lat,
-            String lng, String radius, String country, int limit) {
+                                              String lng, String radius, String country, int limit) {
         WebTarget target = buildBaseTarget(lat, lng, searchURL)
                 .queryParam(SEARCH_QUERY_PARAMETER, query)
-        .queryParam("suggest", "true");
+                .queryParam("suggest", "true");
         target = addRadiusAndCountryToTarget(radius, country, target);
-        if (limit >0) {
+        if (limit > 0) {
             target = target.queryParam(SEARCH_LIMIT_PARAMETER, limit);
         }
         return target;
     }
 
     private WebTarget buildReverseGeocodingTarget(String query, String lat,
-            String lng, String radius, String country, int limit) {
-        return  buildBaseTarget(lat, lng, reverseGeocodingUrl);
+                                                  String lng, String radius, String country, int limit) {
+        return buildBaseTarget(lat, lng, reverseGeocodingUrl);
     }
 
     protected WebTarget buildBaseTarget(String lat, String lng, String URL) {
         WebTarget target = jerseyClient.target(URL)
                 .queryParam(FORMAT_PARAMETER, DEFAULT_FORMAT);
 
-        if (apiKey!=null && !apiKey.isEmpty()) {
+        if (apiKey != null && !apiKey.isEmpty()) {
             target = target.queryParam(APIKEY_PARAMETER, apiKey);
         }
-        if (lat!=null && !lat.isEmpty()) {
+        if (lat != null && !lat.isEmpty()) {
             target = target.queryParam(LAT_PARAMETER, lat);
         }
-        if (lng!=null && !lng.isEmpty()) {
+        if (lng != null && !lng.isEmpty()) {
             target = target.queryParam(LONG_PARAMETER, lng);
         }
         return target;
     }
 
     protected WebTarget addRadiusAndCountryToTarget(String radius,
-            String country, WebTarget target) {
+                                                    String country, WebTarget target) {
         if (!radius.isEmpty()) {
             target = target.queryParam(RADIUS_PARAMETER, radius);
         }
