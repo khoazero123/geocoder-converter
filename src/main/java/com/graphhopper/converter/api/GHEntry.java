@@ -152,12 +152,18 @@ public class GHEntry {
         this.street = street;
     }
 
-    @JsonProperty("house_number")
+    @JsonProperty("housenumber")
     public String getHouseNumber() {
         return houseNumber;
     }
 
+    // TODO this getter will be deleted soon (Aug 2019) and is only available due to the breaking API change of renaming house_number to housenumber
     @JsonProperty("house_number")
+    public String getHouse_Number() {
+        return houseNumber;
+    }
+
+    @JsonProperty("housenumber")
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
