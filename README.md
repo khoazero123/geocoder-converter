@@ -1,6 +1,6 @@
 # GraphHopper Geocoder Converter
 
-Converts a geocoding response from Nominatim, Gisgraphy, or OpenCageData to a GraphHopper geocoding response.
+Converts a geocoding response from Nominatim, Gisgraphy, OpenCageData or NetToolKit to a GraphHopper geocoding response.
 The geocoding converter makes it easy to use different geocoders using the same interface.
 A user queries the converter and the converter then queries the geocoding provider getting the corresponding response and converting it to the GraphHopper response format.
 
@@ -26,6 +26,7 @@ This query will be translated to the following queries:
 https://nominatim.openstreetmap.org/search/berlin?format=json&addressdetails=1
 https://api.opencagedata.com/geocode/v1/json?q=berlin
 https://services.gisgraphy.com/geocoding/search?address=berlin&format=json
+https://api.nettoolkit.com/v1/geo/geocodes?address=berlin
 ```
 
 ### Reverse Geocoding
@@ -40,6 +41,7 @@ This query will be translated to the following queries:
 https://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&addressdetails=1
 https://api.opencagedata.com/geocode/v1/json?q=52.5487429714954%2C-1.81602098644987
 https://services.gisgraphy.com/reversegeocoding/search?format=json&lat=52.5487429714954&lng=-1.81602098644987
+https://api.nettoolkit.com/v1/geo/reverse-geocodes?latitude=52.5487429714954&longitude=-1.81602098644987
 ```
 
 ## Providers
@@ -146,6 +148,49 @@ Gisgraphy does not return tags from OSM and no Extent.
     "formatedPostal": "New York City, 10001",
     "score": 97.7906,
     "sourceId": 175905
+}
+```
+### NetToolKit
+
+NetToolKit Geo provides rooftop accuracy for most US addresses, and provides a wrapper around Nominatim for other addresses. You can find out more about NetToolKit [here](https://www.nettoolkit.com/geo/about).
+
+The geocoding converter supports the following additional NetToolKit parameters, please consult the NetToolKit documentation to find out more details about the parameter: 
+- `source`: User can choose which source provider to geocode the address, this value is "NetToolKit" by default
+- `country_code`: an iso-3166-2 country code (e.g : US) filter the results to the specify country code
+
+**NetToolKit does not support the locale parameter**
+
+**Response**
+
+NetToolKit does not return OSM tags (e.g. osm_id, osm_type, osm_value).
+
+```json
+{
+  "code": 1000,
+  "query": {
+    "address_query": "790 E Duane Ave, Sunnyvale, CA 94085"
+  },
+  "results": [
+    {
+      "address": "790 E Duane Avenue, Sunnyvale, CA, 94085, USA",
+      "latitude": 37.3865321,
+      "longitude": -122.01121455,
+      "house_number": "790",
+      "street": "E Duane Avenue",
+      "street_name": "Duane",
+      "street_type": "Avenue",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "California",
+      "state_code": "CA",
+      "country": "United States of America",
+      "postcode": "94085",
+      "postal_code": "94085",
+      "precision": "rooftop",
+      "provider": "OpenAddresses",
+      "ntk_geocode_time": 664
+    }
+  ]
 }
 ```
 
