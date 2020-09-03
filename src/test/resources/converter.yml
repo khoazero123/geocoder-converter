@@ -17,3 +17,6 @@ netToolKitGeocodingURL: https://api.nettoolkit.com/v1/geo/geocodes?
 netToolKitReverseGeocodingURL: https://api.nettoolkit.com/v1/geo/reverse-geocodes?
 netToolKitKey: ${NTK_KEY}
 netToolKit: true
+
+photonSupportedLanguages: en,de
+photon: true

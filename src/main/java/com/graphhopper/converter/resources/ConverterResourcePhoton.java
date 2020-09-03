@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.util.Set;
 
 /**
  * @author Robin Boldt
@@ -20,10 +21,12 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
     private final String photonUrl;
     private final String photonReverseUrl;
     private final Client jerseyClient;
+    private final Set<String> supportedLanguages;
 
-    public ConverterResourcePhoton(String photonUrl, String photonReverseUrl, Client jerseyClient) {
+    public ConverterResourcePhoton(String photonUrl, String photonReverseUrl, Set<String> supportedLanguages, Client jerseyClient) {
         this.photonUrl = photonUrl;
         this.photonReverseUrl = photonReverseUrl;
+        this.supportedLanguages = supportedLanguages;
         this.jerseyClient = jerseyClient;
     }
 
@@ -59,6 +62,8 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
         }
 
         if (!locale.isEmpty()) {
+            if (!supportedLanguages.contains(locale))
+                locale = "en";
             locale = getLocaleFromParameter(locale);
             target = target.queryParam("lang", locale);
         }

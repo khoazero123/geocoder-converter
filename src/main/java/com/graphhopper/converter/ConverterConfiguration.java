@@ -7,6 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * @author Robin Boldt, David Masclet, Xuejing Dong
@@ -26,9 +29,9 @@ public class ConverterConfiguration extends Configuration {
     private String peliasKey = "";
 
     private String gisgraphyGeocodingURL = "https://services.gisgraphy.com/geocoding/";
-    private String gisgraphyReverseGeocodingURL ="https://services.gisgraphy.com/reversegeocoding/";
-    private String gisgraphySearchURL =  "https://services.gisgraphy.com/fulltext/";
-    private String gisgraphyAPIKey="";
+    private String gisgraphyReverseGeocodingURL = "https://services.gisgraphy.com/reversegeocoding/";
+    private String gisgraphySearchURL = "https://services.gisgraphy.com/fulltext/";
+    private String gisgraphyAPIKey = "";
 
     private String netToolKitGeocodingURL = "https://api.nettoolkit.com/v1/geo/geocodes?";
     private String netToolKitReverseGeocodingURL = "https://api.nettoolkit.com/v1/geo/reverse-geocodes?";
@@ -38,6 +41,7 @@ public class ConverterConfiguration extends Configuration {
     private String photonURL = "https://photon.komoot.de/api/";
     @NotEmpty
     private String photonReverseURL = "https://photon.komoot.de/reverse/";
+    private Set<String> photonSupportedLanguages = new HashSet<>();
 
     @Valid
     @NotNull
@@ -298,6 +302,19 @@ public class ConverterConfiguration extends Configuration {
     @JsonProperty
     public void setPhotonReverseURL(String photonReverseURL) {
         this.photonReverseURL = photonReverseURL;
+    }
+
+    @JsonProperty
+    public void setPhotonSupportedLanguages(String supportedLanguages) {
+        Set<String> set = new HashSet<>();
+        for (String lang : supportedLanguages.split(",")) {
+            set.add(lang.trim().toLowerCase(Locale.ROOT));
+        }
+        this.photonSupportedLanguages = set;
+    }
+
+    public Set<String> getPhotonSupportedLanguages() {
+        return photonSupportedLanguages;
     }
 
     @JsonProperty

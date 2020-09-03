@@ -3,7 +3,6 @@ package com.graphhopper.converter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
-
 import com.graphhopper.converter.resources.ConverterResourceNetToolKit;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -16,7 +15,6 @@ import io.dropwizard.util.Duration;
 
 import javax.servlet.DispatcherType;
 import javax.ws.rs.client.Client;
-
 import java.util.EnumSet;
 
 /**
@@ -96,6 +94,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
             final ConverterResourcePhoton resource = new ConverterResourcePhoton(
                     converterConfiguration.getPhotonURL(),
                     converterConfiguration.getPhotonReverseURL(),
+                    converterConfiguration.getPhotonSupportedLanguages(),
                     client);
             environment.jersey().register(resource);
         }
