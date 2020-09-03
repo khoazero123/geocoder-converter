@@ -20,14 +20,6 @@ public class GHResponse {
         hits = new ArrayList<>(no);
     }
 
-    public void setCopyrights(List<String> copyrights) {
-        this.copyrights = copyrights;
-    }
-
-    public List<String> getCopyrights() {
-        return copyrights;
-    }
-
     public GHResponse addCopyright(String cr) {
         copyrights.add(cr);
         return this;

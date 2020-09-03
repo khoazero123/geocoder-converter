@@ -13,7 +13,7 @@ public class Converter {
 
     public static GHEntry convertFromNetToolKitAddress(NetToolKitAddressEntry ntkEntry) {
         GHEntry rsp = new GHEntry(null, null, ntkEntry.getLat(),
-                ntkEntry.getLng(), ntkEntry.getAddress(), null,
+                ntkEntry.getLng(), ntkEntry.getAddress(), null, null,
                 ntkEntry.getCountry(), ntkEntry.getCity(),
                 ntkEntry.getState(), null, ntkEntry.getCounty(), ntkEntry.getStreet(),
                 ntkEntry.getHouseNumber(), ntkEntry.getPostalCode(), null);
@@ -41,7 +41,7 @@ public class Converter {
 
     public static GHEntry convertFromGisgraphyAddress(GisgraphyAddressEntry gisgraphyEntry) {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
-                gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null,
+                gisgraphyEntry.getLng(), gisgraphyEntry.getDisplayName(), null, null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getCity(),
                 gisgraphyEntry.getState(), null, null, gisgraphyEntry.getStreetName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
@@ -50,7 +50,7 @@ public class Converter {
 
     public static GHEntry convertFromGisgraphySearch(GisgraphySearchEntry gisgraphyEntry) {
         GHEntry rsp = new GHEntry(null, null, gisgraphyEntry.getLat(),
-                gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null,
+                gisgraphyEntry.getLng(), gisgraphyEntry.getLabel(), null, null,
                 gisgraphyEntry.getCountry(), gisgraphyEntry.getIsIn(),
                 gisgraphyEntry.getAdm1Name(), null, null, gisgraphyEntry.getName(),
                 gisgraphyEntry.getHouseNumber(), gisgraphyEntry.getZipCode(), null);
@@ -99,7 +99,7 @@ public class Converter {
 
     public static GHEntry convertFromNominatim(NominatimEntry response) {
         GHEntry rsp = new GHEntry(response.getOsmId(), response.getGHOsmType(), response.getLat(), response.getLon(),
-                response.getDisplayName(), response.getType(), response.getAddress(), response.getExtent());
+                response.getDisplayName(), null, response.getType(), response.getAddress(), response.getExtent());
         return rsp;
     }
 
@@ -154,7 +154,7 @@ public class Converter {
         }
 
         GHEntry rsp = new GHEntry(osmId, type, response.getGeometry().lat, response.getGeometry().lng,
-                response.getFormatted(), response.getComponents().type, response.getComponents(), response.getExtent());
+                response.getFormatted(), null, response.getComponents().type, response.getComponents(), response.getExtent());
 
         return rsp;
     }
@@ -176,8 +176,11 @@ public class Converter {
     }
 
     public static GHEntry convertFromPelias(PeliasEntry response) {
-        GHEntry rsp = new GHEntry(response.properties.getOsmId(), response.properties.getGHOsmType(), response.geometry.getLat(), response.geometry.getLon(),
-                response.properties.name, null, response.properties.country, response.properties.locality, response.properties.region, response.properties.macrocounty, response.properties.county, response.properties.street, response.properties.housenumber, response.properties.postalcode, response.getExtent());
+        GHEntry rsp = new GHEntry(response.properties.getOsmId(), response.properties.getGHOsmType(),
+                response.geometry.getLat(), response.geometry.getLon(), response.properties.name, null, null,
+                response.properties.country, response.properties.locality, response.properties.region,
+                response.properties.macrocounty, response.properties.county, response.properties.street,
+                response.properties.housenumber, response.properties.postalcode, response.getExtent());
         return rsp;
     }
 
@@ -199,8 +202,11 @@ public class Converter {
     }
 
     public static GHEntry convertFromPhoton(PhotonEntry response) {
-        GHEntry rsp = new GHEntry(response.properties.osmId, response.properties.osmType, response.geometry.getLat(), response.geometry.getLon(),
-                response.properties.name, response.properties.osmValue, response.properties.country, response.properties.city, response.properties.state, null, null, response.properties.street, response.properties.housenumber, response.properties.postcode, response.properties.getExtent());
+        GHEntry rsp = new GHEntry(response.properties.osmId, response.properties.osmType,
+                response.geometry.getLat(), response.geometry.getLon(), response.properties.name,
+                response.properties.osmKey, response.properties.osmValue, response.properties.country, response.properties.city,
+                response.properties.state, null, null, response.properties.street, response.properties.housenumber,
+                response.properties.postcode, response.properties.getExtent());
         return rsp;
     }
 

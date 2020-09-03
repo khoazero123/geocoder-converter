@@ -27,11 +27,16 @@ public class GHEntry {
     private String street;
     private String houseNumber;
     private String postcode;
+    private String osmKey;
     private String osmValue;
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, String country, String city, String state, String stateDistrict, String county, String street, String houseNumber, String postcode, Extent extent) {
+    public GHEntry(Long osmId, String osmType, double lat, double lng, String name, String osmKey, String osmValue,
+                   String country, String city, String state, String stateDistrict, String county, String street,
+                   String houseNumber, String postcode, Extent extent) {
         this.osmId = osmId;
-        this.osmType = type;
+        this.osmType = osmType;
+        this.osmKey = osmKey;
+        this.osmValue = osmValue;
         this.point = new Point(lat, lng);
         this.name = name;
         this.country = country;
@@ -42,15 +47,17 @@ public class GHEntry {
         this.street = street;
         this.houseNumber = houseNumber;
         this.postcode = postcode;
-        this.osmValue = osmValue;
         this.extent = extent;
     }
 
-    public GHEntry(Long osmId, String type, double lat, double lng, String name, String osmValue, AbstractAddress address, Extent extent) {
-        this(osmId, type, lat, lng, name, osmValue, address.country, address.getGHCity(), address.state, address.stateDistrict, address.county, address.getStreetName(), address.houseNumber, address.postcode, extent);
+    public GHEntry(Long osmId, String osmType, double lat, double lng, String name, String osmKey, String osmValue,
+                   AbstractAddress address, Extent extent) {
+        this(osmId, osmType, lat, lng, name, osmKey, osmValue, address.country, address.getGHCity(), address.state,
+                address.stateDistrict, address.county, address.getStreetName(), address.houseNumber, address.postcode, extent);
     }
 
-    public GHEntry(){}
+    public GHEntry() {
+    }
 
     @JsonProperty
     public String getName() {
@@ -178,6 +185,16 @@ public class GHEntry {
         this.postcode = postcode;
     }
 
+    @JsonProperty("osm_key")
+    public String getOsmKey() {
+        return osmKey;
+    }
+
+    @JsonProperty("osm_key")
+    public void setOsmKey(String osmKey) {
+        this.osmKey = osmKey;
+    }
+
     @JsonProperty("osm_value")
     public String getOsmValue() {
         return osmValue;
@@ -208,7 +225,8 @@ public class GHEntry {
             this.lng = lng;
         }
 
-        public Point(){}
+        public Point() {
+        }
 
         @JsonProperty
         public double getLat() {
