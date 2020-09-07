@@ -207,6 +207,15 @@ public class Converter {
                 response.properties.osmKey, response.properties.osmValue, response.properties.country, response.properties.city,
                 response.properties.state, null, null, response.properties.street, response.properties.housenumber,
                 response.properties.postcode, response.properties.getExtent());
+        if (rsp.getName() == null || rsp.getName().isEmpty()) {
+            for (String tmp : new String[]{rsp.getStreet(), rsp.getCity(), rsp.getState(), rsp.getCountry()}) {
+                if (tmp != null && !tmp.isEmpty()) {
+                    rsp.setName(tmp);
+                    break;
+                }
+            }
+        }
+
         return rsp;
     }
 
