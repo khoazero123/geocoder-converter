@@ -38,7 +38,6 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
                            @QueryParam("limit") @DefaultValue("5") int limit,
                            @QueryParam("locale") @DefaultValue("") String locale,
                            @QueryParam("viewbox") @DefaultValue("") String viewbox,
-                           @QueryParam("viewboxlbrt") @DefaultValue("") String viewboxlbrt,
                            @QueryParam("bounded") @DefaultValue("") String bounded,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("") String point
@@ -65,9 +64,6 @@ public class ConverterResourceNominatim extends AbstractConverterResource {
         }
         if (!viewbox.isEmpty()) {
             target = target.queryParam("viewbox", viewbox);
-        }
-        if (!viewboxlbrt.isEmpty()) {
-            target = target.queryParam("viewboxlbrt", viewboxlbrt);
         }
         if (!bounded.isEmpty()) {
             target = target.queryParam("bounded", bounded);
