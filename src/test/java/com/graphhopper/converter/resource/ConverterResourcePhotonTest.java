@@ -115,6 +115,32 @@ public class ConverterResourcePhotonTest {
     }
 
     @Test
+    public void osmTags() {
+        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test reverse client");
+
+        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
+        client.property(ClientProperties.READ_TIMEOUT, 100000);
+
+        Response response = client.target(
+                String.format("http://localhost:%d/photon?q=berlin&osm_tag=place:city", RULE.getLocalPort()))
+                .request()
+                .get();
+        assertThat(response.getStatus()).isEqualTo(200);
+        GHResponse entry = response.readEntity(GHResponse.class);
+        assertEquals("Berlin", entry.getHits().get(0).getName());
+        assertEquals("city", entry.getHits().get(0).getOsmValue());
+
+        response = client.target(
+                String.format("http://localhost:%d/photon?q=berlin&osm_tag=!place:city", RULE.getLocalPort()))
+                .request()
+                .get();
+        assertThat(response.getStatus()).isEqualTo(200);
+        entry = response.readEntity(GHResponse.class);
+        assertEquals("Berlin", entry.getHits().get(0).getName());
+        assertEquals("state", entry.getHits().get(0).getOsmValue());
+    }
+
+    @Test
     public void testCorrectLocale() {
         Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("testCorrectLocale");
 

@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,6 +38,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
                            @QueryParam("locale") @DefaultValue("") String locale,
                            @QueryParam("bbox") @DefaultValue("") String bbox,
                            @QueryParam("location_bias_scale") @DefaultValue("") String locationBiasScale,
+                           @QueryParam("osm_tag") List<String> osmTags,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("") String point
     ) {
@@ -72,6 +74,10 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
         }
         if (!locationBiasScale.isEmpty()) {
             target = target.queryParam("location_bias_scale", locationBiasScale);
+        }
+
+        for (String osmTag : osmTags) {
+            target = target.queryParam("osm_tag", osmTag);
         }
 
         Response response = target.request().accept("application/json").get();
