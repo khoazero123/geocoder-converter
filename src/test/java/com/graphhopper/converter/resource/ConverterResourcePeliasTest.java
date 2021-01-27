@@ -7,6 +7,7 @@ import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.client.ClientProperties;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,14 +28,18 @@ public class ConverterResourcePeliasTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+    private static Client client;
 
-    @Test
-    public void testHandleForward() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test forward client");
+    @BeforeClass
+    public static void setup() {
+        client = new JerseyClientBuilder(RULE.getEnvironment()).build("client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
         client.property(ClientProperties.READ_TIMEOUT, 100000);
+    }
 
+    @Test
+    public void testHandleForward() {
         Response response = client.target(
                 String.format("http://localhost:%d/pelias?q=berlin", RULE.getLocalPort()))
                 .request()
@@ -54,11 +59,6 @@ public class ConverterResourcePeliasTest {
 
     @Test
     public void testIssue50() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test issue 50");
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT, 100000);
-
         Response response = client.target(
                 String.format("http://localhost:%d/pelias?point=48.4882,2.6996&reverse=true", RULE.getLocalPort()))
                 .request()

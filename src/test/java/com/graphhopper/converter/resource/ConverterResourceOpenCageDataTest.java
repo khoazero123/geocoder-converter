@@ -27,14 +27,18 @@ public class ConverterResourceOpenCageDataTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+    private static Client client;
 
-    @Test
-    public void testIssue50() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test issue 50");
+    @BeforeClass
+    public static void setup() {
+        client = new JerseyClientBuilder(RULE.getEnvironment()).build("client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
         client.property(ClientProperties.READ_TIMEOUT, 100000);
+    }
 
+    @Test
+    public void testIssue50() {
         Response response = client.target(
                 String.format("http://localhost:%d/opencagedata?point=48.4882,2.6996&reverse=true", RULE.getLocalPort()))
                 .request()

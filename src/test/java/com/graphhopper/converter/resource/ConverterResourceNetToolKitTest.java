@@ -7,6 +7,7 @@ import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.client.ClientProperties;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -26,14 +27,18 @@ public class ConverterResourceNetToolKitTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+    private static Client client;
 
-    @Test
-    public void testHandleForward() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test forward client");
+    @BeforeClass
+    public static void setup() {
+        client = new JerseyClientBuilder(RULE.getEnvironment()).build("client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
         client.property(ClientProperties.READ_TIMEOUT, 100000);
+    }
 
+    @Test
+    public void testHandleForward() {
         Response response = client.target(
                 String.format("http://localhost:%d/nettoolkit?q=berlin", RULE.getLocalPort()))
                 .request()
@@ -56,11 +61,6 @@ public class ConverterResourceNetToolKitTest {
 
     @Test
     public void testHandleReverse() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test reverse client");
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT, 100000);
-
         Response response = client.target(
                 String.format("http://localhost:%d/nettoolkit/?point=52.5487429714954,-1.81602098644987&reverse=true", RULE.getLocalPort()))
                 .request()

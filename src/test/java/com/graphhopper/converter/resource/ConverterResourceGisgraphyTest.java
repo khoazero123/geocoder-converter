@@ -7,6 +7,7 @@ import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.glassfish.jersey.client.ClientProperties;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -23,14 +24,18 @@ public class ConverterResourceGisgraphyTest {
     @ClassRule
     public static final DropwizardAppRule<ConverterConfiguration> RULE =
             new DropwizardAppRule<>(ConverterApplication.class, ResourceHelpers.resourceFilePath("converter.yml"));
+    private static Client client;
 
-    @Test
-    public void testHandleForward() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test forward client");
+    @BeforeClass
+    public static void setup() {
+        client = new JerseyClientBuilder(RULE.getEnvironment()).build("client");
 
         client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
         client.property(ClientProperties.READ_TIMEOUT, 100000);
+    }
 
+    @Test
+    public void testHandleForward() {
         Response response = client.target(
                 String.format("http://localhost:%d/gisgraphy?q=berlin", RULE.getLocalPort()))
                 .request()
@@ -53,11 +58,6 @@ public class ConverterResourceGisgraphyTest {
 
     @Test
     public void testHandleReverse() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test reverse client");
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT, 100000);
-
         Response response = client.target(
                 String.format("http://localhost:%d/gisgraphy/?point=52.5487429714954,-1.81602098644987&reverse=true", RULE.getLocalPort()))
                 .request()
@@ -66,16 +66,10 @@ public class ConverterResourceGisgraphyTest {
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
         assertTrue(entry.getHits().size() > 0);
-
     }
 
     @Test
     public void testHandleAutocomplete() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test autocomplete client");
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT, 100000);
-
         Response response = client.target(
                 String.format("http://localhost:%d/gisgraphy?q=pari&autocomplete=true", RULE.getLocalPort()))
                 .request()
@@ -84,29 +78,15 @@ public class ConverterResourceGisgraphyTest {
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
         assertTrue(entry.getHits().size() > 0);
-
     }
 
     @Test
     public void testHandleAutocompleteWithReverseShouldThrows() {
-        Client client = new JerseyClientBuilder(RULE.getEnvironment()).build("test autocomplete-reverse client");
-
-        client.property(ClientProperties.CONNECT_TIMEOUT, 100000);
-        client.property(ClientProperties.READ_TIMEOUT, 100000);
-
-        Response response = null;
-        try {
-            response = client.target(
-                    String.format("http://localhost:%d/gisgraphy?q=pari&point=52.5487429714954,-1.81602098644987&autocomplete=true&reverse=true", RULE.getLocalPort()))
-                    .request()
-                    .get();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        Response response = client.target(
+                String.format("http://localhost:%d/gisgraphy?q=pari&point=52.5487429714954,-1.81602098644987&autocomplete=true&reverse=true", RULE.getLocalPort()))
+                .request()
+                .get();
 
         assertThat(response.getStatus()).isEqualTo(400);
-
     }
-
 }
