@@ -35,6 +35,7 @@ public class ConverterConfiguration extends Configuration {
 
     private String netToolKitGeocodingURL = "https://api.nettoolkit.com/v1/geo/geocodes?";
     private String netToolKitReverseGeocodingURL = "https://api.nettoolkit.com/v1/geo/reverse-geocodes?";
+    private int netToolKitTimeout = 10_000;
     private String netToolKitKey = "";
 
     @NotEmpty
@@ -263,7 +264,6 @@ public class ConverterConfiguration extends Configuration {
         this.netToolKitReverseGeocodingURL = netToolKitReverseGeocodingURL;
     }
 
-
     @JsonProperty
     public String getNetToolKitKey() {
         return netToolKitKey;
@@ -272,6 +272,16 @@ public class ConverterConfiguration extends Configuration {
     @JsonProperty
     public void setNetToolKitKey(String netToolKitKey) {
         this.netToolKitKey = netToolKitKey;
+    }
+
+    @JsonProperty
+    public int getNetToolKitTimeout() {
+        return netToolKitTimeout;
+    }
+
+    @JsonProperty
+    public void setNetToolKitTimeout(int netToolKitTimeout) {
+        this.netToolKitTimeout = netToolKitTimeout;
     }
 
     @JsonProperty

@@ -3,7 +3,6 @@ package com.graphhopper.converter;
 import com.graphhopper.converter.api.IPFilter;
 import com.graphhopper.converter.health.NominatimHealthCheck;
 import com.graphhopper.converter.resources.*;
-import com.graphhopper.converter.resources.ConverterResourceNetToolKit;
 import io.dropwizard.Application;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.client.JerseyClientConfiguration;
@@ -86,6 +85,7 @@ public class ConverterApplication extends Application<ConverterConfiguration> {
                     converterConfiguration.getNetToolKitGeocodingURL(),
                     converterConfiguration.getNetToolKitReverseGeocodingURL(),
                     converterConfiguration.getNetToolKitKey(),
+                    converterConfiguration.getNetToolKitTimeout(),
                     client);
             environment.jersey().register(resource);
         }

@@ -8,10 +8,7 @@ import com.graphhopper.converter.core.Converter;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Xuejing Dong
@@ -21,17 +18,20 @@ import java.util.List;
 public class ConverterResourceNetToolKit extends AbstractConverterResource {
 
     private final String netToolKitUrl;
+    private final int timeout;
     private final String netToolKitReverseUrl;
     private final String apiKey;
     private final Client jerseyClient;
 
-    public ConverterResourceNetToolKit(String netToolKitUrl, 
-                                       String netToolKitReverseUrl, 
-                                       String netToolKitKey, 
+    public ConverterResourceNetToolKit(String netToolKitUrl,
+                                       String netToolKitReverseUrl,
+                                       String netToolKitKey,
+                                       int timeout,
                                        Client jerseyClient) {
         this.netToolKitUrl = netToolKitUrl;
         this.netToolKitReverseUrl = netToolKitReverseUrl;
-        this.apiKey = netToolKitKey; 
+        this.apiKey = netToolKitKey;
+        this.timeout = timeout;
         this.jerseyClient = jerseyClient;
     }
 
@@ -42,9 +42,9 @@ public class ConverterResourceNetToolKit extends AbstractConverterResource {
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("false") String point,
                            @QueryParam("country_code") @DefaultValue("") String countryCode,
-                           @QueryParam("source") @DefaultValue("nettoolkit") String provider)
-    {
-        limit = fixLimit(limit);
+                           @QueryParam("source") @DefaultValue("nettoolkit") String provider) {
+        // TODO it seems limit is not supported from nettoolkit
+        // limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);
         WebTarget target;
         if (reverse) {
@@ -58,8 +58,8 @@ public class ConverterResourceNetToolKit extends AbstractConverterResource {
             NetToolKitResponse ntkResponse = response.readEntity(NetToolKitResponse.class);
             return Converter.convertFromNetToolKitList(ntkResponse.results, status);
         } catch (Exception e) {
-            LOGGER.error("There was an issue with the target " + target.getUri() 
-                + " the provider returned: " + status.code + " - " + status.message);
+            LOGGER.error("There was an issue with the target " + target.getUri()
+                    + " the provider returned: " + status.code + " - " + status.message);
             throw new BadRequestException("error deserializing geocoding feed");
         } finally {
             response.close();
@@ -69,6 +69,7 @@ public class ConverterResourceNetToolKit extends AbstractConverterResource {
     private WebTarget buildForwardTarget(String query, String provider, String countryCode) {
         return jerseyClient.
                 target(netToolKitUrl).
+                queryParam("timeout", timeout).
                 queryParam("address", query).
                 queryParam("provider", provider).
                 queryParam("country_code", countryCode).
