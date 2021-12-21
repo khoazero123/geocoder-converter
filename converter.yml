@@ -22,8 +22,8 @@ gisgraphySearchURL:  ${GIS_SEARCH_URL}
 gisgraphyAPIKey: ${GIS_KEY}
 gisgraphy: true
 
-photonURL: https://photon.komoot.de/api/
-photonReverseURL: https://photon.komoot.de/reverse/
+photonURL: https://photon.komoot.io/api/
+photonReverseURL: https://photon.komoot.io/reverse/
 photon: true
 
 # e.g. to restrict for local access
