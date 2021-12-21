@@ -1,12 +1,11 @@
 package com.graphhopper.converter.resources;
 
 import com.graphhopper.converter.api.Status;
-import org.apache.http.util.EntityUtils;
-import org.glassfish.jersey.message.internal.EntityInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.util.Locale;
