@@ -39,9 +39,9 @@ public class ConverterConfiguration extends Configuration {
     private String netToolKitKey = "";
 
     @NotEmpty
-    private String photonURL = "https://photon.komoot.de/api/";
+    private String photonURL = "https://photon.komoot.io/api/";
     @NotEmpty
-    private String photonReverseURL = "https://photon.komoot.de/reverse/";
+    private String photonReverseURL = "https://photon.komoot.io/reverse/";
     private Set<String> photonSupportedLanguages = new HashSet<>();
 
     @Valid

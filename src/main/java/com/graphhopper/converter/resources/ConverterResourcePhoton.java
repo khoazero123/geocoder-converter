@@ -35,7 +35,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
     @Timed
     public Response handle(@QueryParam("q") @DefaultValue("") String query,
                            @QueryParam("limit") @DefaultValue("5") int limit,
-                           @QueryParam("locale") @DefaultValue("") String locale,
+                           @QueryParam("locale") @DefaultValue("en") String locale,
                            @QueryParam("bbox") @DefaultValue("") String bbox,
                            @QueryParam("location_bias_scale") @DefaultValue("") String locationBiasScale,
                            @QueryParam("osm_tag") List<String> osmTags,
@@ -52,15 +52,13 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
             target = buildForwardTarget(query);
         }
 
-        target = target.
-                queryParam("limit", limit);
+        target = target.queryParam("limit", limit);
 
         if (!point.isEmpty()) {
             String[] cords = point.split(",");
             String lat = cords[0];
             String lon = cords[1];
-            target = target.queryParam("lat", lat).
-                    queryParam("lon", lon);
+            target = target.queryParam("lat", lat).queryParam("lon", lon);
         }
 
         if (!locale.isEmpty()) {
@@ -73,7 +71,12 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
             target = target.queryParam("bbox", bbox);
         }
         if (!locationBiasScale.isEmpty()) {
-            target = target.queryParam("location_bias_scale", locationBiasScale);
+            try {
+                double num = Double.parseDouble(locationBiasScale);
+                target = target.queryParam("location_bias_scale", num > 1 ? 1 : (num < 0 ? 0 : num));
+            } catch (Exception ex) {
+                throw new BadRequestException("location_bias_scale has invalid format " + locationBiasScale);
+            }
         }
 
         for (String osmTag : osmTags) {
