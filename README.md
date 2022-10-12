@@ -1,17 +1,41 @@
 # GraphHopper Geocoder Converter
 
 Converts a geocoding response from Nominatim, Gisgraphy, OpenCageData or NetToolKit to a GraphHopper geocoding response.
-The geocoding converter makes it easy to use different geocoders using the same interface.
-A user queries the converter and the converter then queries the geocoding provider getting the corresponding response and converting it to the GraphHopper response format.
+The geocoding converter makes it easy to request different geocoders with the same parameters and returns a similar response format.
+
+A user queries the converter and the converter then queries the geocoding provider getting the corresponding response and converting it to the GraphHopper response format:
+
+```
+same request  format  -> geocoder-converter ->    a geocoding provider like photon or nominatim
+same response format  <- geocoder-converter <---/
+```
+
 
 [![Build Status](https://travis-ci.org/graphhopper/geocoder-converter.svg?branch=master)](https://travis-ci.org/graphhopper/geocoder-converter)
 
+## Starting the Server
+
+Run the following commands from the main directory - **the version of the .jar might be different**:
+```
+mvn clean install
+java -jar target/graphhopper-geocoder-converter-0.2-SNAPSHOT.jar server converter.yml
+```
+
+### Configuring IntelliJ
+
+Click on `Run->Edit Configurations->+->Application`
+
+Main Class: `com.graphhopper.converter.ConverterApplication`.
+Programm Arguments: `server converter.yml`
+
+
 ## API
 
-The goal of this project is to use different geocoders using the [GraphHopper Geocoding API](https://graphhopper.com/api/1/docs/geocoding/).
-GraphHopper provides a hosted version of the geocoding converter via the GraphHopper Geocoding API.
+The goal of this project is to integrate different geocoders in the [GraphHopper Geocoding API](https://graphhopper.com/api/1/docs/geocoding/).
+
 You can select which service is used by attaching `provider=[PROVIDER_NAME]` to your geocoding query.
-All providers provide basic geocoding functions, but all provide different features, allow to use some additional parameters, or don't support some of the parameters of the default provider of the GraphHopper Geocoding API.
+All providers provide basic geocoding functions, but all provide different features, allow to use some additional parameters, or don't support some of the parameters, or might return different values.
+
 If a parameter is missing, please feel free to open an issue or a pull request to add it. 
     
 ### Geocoding (forward)
@@ -199,18 +223,3 @@ NetToolKit does not return OSM tags (e.g. osm_id, osm_type, osm_value).
 Photon offers the additional parameters:
 - `bbox`: Allows to filter for the results by a bbox using `minLon,minLat,maxLon,maxLat`, for example - `bbox=9.5,51.5,11.5,53.5`
 - `location_bias_scale`: You can define how strong the bias of the provided lat,lon is on the returned results. Range is 0.1 to 10, default is 1.6. 
-
-## Starting the Server
-
-Run the following commands from the main directory - **the version of the .jar might be different**:
-```
-mvn clean install
-java -jar target/graphhopper-geocoder-converter-0.2-SNAPSHOT.jar server converter.yml
-```
-
-### Configuring IntelliJ
-
-Click on `Run->Edit Configurations->+->Application`
-
-Main Class: `com.graphhopper.converter.ConverterApplication`.
-Programm Arguments: `server converter.yml`
