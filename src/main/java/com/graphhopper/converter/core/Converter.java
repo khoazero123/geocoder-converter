@@ -16,7 +16,7 @@ public class Converter {
                 ntkEntry.getLng(), ntkEntry.getAddress(), null, null,
                 ntkEntry.getCountry(), null, ntkEntry.getCity(),
                 ntkEntry.getState(), null, ntkEntry.getCounty(), ntkEntry.getStreet(),
-                ntkEntry.getHouseNumber(), ntkEntry.getPostalCode(), null);
+                ntkEntry.getStreetNumber(), ntkEntry.getPostalCode(), null);
         return rsp;
     }
 

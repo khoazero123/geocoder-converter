@@ -58,7 +58,7 @@ public class ConverterResourcePhotonTest {
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
         // this is real!? https://en.wikipedia.org/wiki/Beer_Island
-        assertEquals("Beer Island", entry.getHits().get(0).getName());
+        assertEquals("Beer", entry.getHits().get(0).getName());
 
         // Now test a high bias
         response = client.target(String.format("http://localhost:%d/photon?q=beer&point=48.774675,9.172136&location_bias_scale=0.1", RULE.getLocalPort()))
@@ -67,7 +67,7 @@ public class ConverterResourcePhotonTest {
 
         assertThat(response.getStatus()).isEqualTo(200);
         entry = response.readEntity(GHResponse.class);
-        assertEquals("70178", entry.getHits().get(0).getPostcode());
+        assertEquals("70199", entry.getHits().get(0).getPostcode());
         assertEquals("Beerstraße", entry.getHits().get(0).getName());
     }
 
@@ -79,7 +79,7 @@ public class ConverterResourcePhotonTest {
 
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertEquals("30851", entry.getHits().get(0).getPostcode());
+        assertEquals("30179", entry.getHits().get(0).getPostcode());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ConverterResourcePhotonTest {
         assertThat(response.getStatus()).isEqualTo(200);
 
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertEquals("Rotebühlplatz", entry.getHits().get(0).getName());
+        assertEquals("Rotebühlplatz Position 2", entry.getHits().get(0).getName());
         assertEquals("Baden-Württemberg", entry.getHits().get(0).getState());
     }
 
@@ -111,8 +111,8 @@ public class ConverterResourcePhotonTest {
                 .get();
         assertThat(response.getStatus()).isEqualTo(200);
         entry = response.readEntity(GHResponse.class);
-        assertEquals("Berlin", entry.getHits().get(0).getName());
-        assertEquals("state", entry.getHits().get(0).getOsmValue());
+        assertEquals("Battle of Berlin", entry.getHits().get(0).getName());
+        assertEquals("battlefield", entry.getHits().get(0).getOsmValue());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class ConverterResourcePhotonTest {
 
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("de"));
+        assertEquals(entry.getLocale(), "de");
     }
 
 }

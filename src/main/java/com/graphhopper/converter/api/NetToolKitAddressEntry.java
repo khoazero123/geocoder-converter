@@ -18,7 +18,7 @@ public class NetToolKitAddressEntry {
     private String state;
     private String stateCode;
     private String postalCode;
-    private String houseNumber;
+    private String streetNumber;
     private String street;
     private String streetName;
     private String streetType;
@@ -105,14 +105,14 @@ public class NetToolKitAddressEntry {
         this.postalCode = postalCode;
     }
 
-    @JsonProperty("house_number")
-    public String getHouseNumber() {
-        return houseNumber;
+    @JsonProperty("street_number")
+    public String getStreetNumber() {
+        return streetNumber;
     }
 
-    @JsonProperty("house_number")
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
+    @JsonProperty("street_number")
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     @JsonProperty("street_name")

@@ -42,7 +42,7 @@ public class ConverterResourceNetToolKit extends AbstractConverterResource {
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("false") String point,
                            @QueryParam("country_code") @DefaultValue("") String countryCode,
-                           @QueryParam("source") @DefaultValue("nettoolkit") String provider) {
+                           @QueryParam("source") @DefaultValue("openstreetmap") String provider) {
         // TODO it seems limit is not supported from nettoolkit
         // limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);

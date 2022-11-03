@@ -202,7 +202,7 @@ public class ConverterTest {
         ntkEntry.setLat(37.3865);
         ntkEntry.setLng(-122.0112); 
         ntkEntry.setAddress("790 Duane Avenue E, Sunnyvale, Santa Clara, CA, 94085, USA");
-        ntkEntry.setHouseNumber("790");
+        ntkEntry.setStreetNumber("790");
         ntkEntry.setStreet("E Duane Avenue");
         ntkEntry.setStreetName("Duane");
         ntkEntry.setStreetType("Avenue");
@@ -220,7 +220,7 @@ public class ConverterTest {
         assertEquals(ntkEntry.getLat(), ghEntry.getPoint().getLat(), 0.0001);
         assertEquals(ntkEntry.getLng(), ghEntry.getPoint().getLng(), 0.0001);
         assertEquals(ntkEntry.getAddress(), ghEntry.getName());
-        assertEquals(ntkEntry.getHouseNumber(), ghEntry.getHouseNumber());
+        assertEquals(ntkEntry.getStreetNumber(), ghEntry.getHouseNumber());
         assertEquals(ntkEntry.getCity(), ghEntry.getCity());
         assertEquals(ntkEntry.getCounty(), ghEntry.getCounty());
         assertEquals(ntkEntry.getState(), ghEntry.getState());
