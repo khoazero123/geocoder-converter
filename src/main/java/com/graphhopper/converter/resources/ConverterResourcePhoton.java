@@ -63,8 +63,9 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
 
         if (!locale.isEmpty()) {
             if (!supportedLanguages.contains(locale))
-                locale = "en";
-            locale = getLocaleFromParameter(locale);
+                locale = "default";
+            else
+                locale = getLocaleFromParameter(locale);
             target = target.queryParam("lang", locale);
         }
         if (!bbox.isEmpty()) {
