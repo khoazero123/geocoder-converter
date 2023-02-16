@@ -42,10 +42,10 @@ public class ConverterResourcePhotonTest {
 
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
-        assertTrue(entry.getLocale().equals("en"));
+        assertEquals("default", entry.getLocale()); // by default don't use e.g. "en" as it would incorrectly use name:en instead of name
         assertFalse(entry.getHits().isEmpty());
         assertEquals("Berlin", entry.getHits().get(0).getName());
-        assertEquals("Germany", entry.getHits().get(0).getCountry());
+        assertEquals("Deutschland", entry.getHits().get(0).getCountry());
     }
 
     @Test
