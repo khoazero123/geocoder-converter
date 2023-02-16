@@ -111,7 +111,7 @@ public class ConverterResourcePhotonTest {
                 .get();
         assertThat(response.getStatus()).isEqualTo(200);
         entry = response.readEntity(GHResponse.class);
-        assertEquals("Battle of Berlin", entry.getHits().get(0).getName());
+        assertEquals("Schlacht um Berlin", entry.getHits().get(0).getName());
         assertEquals("battlefield", entry.getHits().get(0).getOsmValue());
     }
 
