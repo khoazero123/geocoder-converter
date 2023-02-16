@@ -35,7 +35,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
     @Timed
     public Response handle(@QueryParam("q") @DefaultValue("") String query,
                            @QueryParam("limit") @DefaultValue("5") int limit,
-                           @QueryParam("locale") @DefaultValue("en") String locale,
+                           @QueryParam("locale") @DefaultValue("default") String locale,
                            @QueryParam("bbox") @DefaultValue("") String bbox,
                            @QueryParam("location_bias_scale") @DefaultValue("") String locationBiasScale,
                            @QueryParam("osm_tag") List<String> osmTags,
