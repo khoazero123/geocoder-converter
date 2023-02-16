@@ -1,7 +1,7 @@
 nominatimURL: https://nominatim.openstreetmap.org/search/
 nominatimReverseURL: https://nominatim.openstreetmap.org/reverse/
 nominatim: true
-nominatimEmail:  
+nominatimEmail: ${NOM_EMAIL}
 
 openCageDataURL: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: ${OCD_KEY}

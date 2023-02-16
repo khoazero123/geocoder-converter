@@ -22,3 +22,14 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Build ${{ matrix.java-version }}
         run: mvn -B clean test
+        # we use public instances of nominatim and photon for testing
+        env:
+          NOM_EMAIL: ${{secrets.NOM_EMAIL}}
+          OCD_KEY: ${{secrets.OCD_KEY}}
+          PELIAS_URL: ${{secrets.PELIAS_URL}}
+          PELIAS_KEY: ${{secrets.PELIAS_KEY}}
+          NTK_KEY: ${{secrets.NTK_KEY}}
+          GIS_GEO_URL: ${{secrets.GIS_GEO_URL}}
+          GIS_REV_GEO_URL: ${{secrets.GIS_REV_GEO_URL}}
+          GIS_SEARCH_URL: ${{secrets.GIS_SEARCH_URL}}
+          GIS_KEY: ${{secrets.GIS_KEY}}
