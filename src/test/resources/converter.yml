@@ -1,4 +1,4 @@
-nominatimURL: https://nominatim.openstreetmap.org/search/
+nominatimURL: https://nominatim.openstreetmap.org/search
 
 openCageDataURL: https://api.opencagedata.com/geocode/v1/json
 openCageDataKey: ${OCD_KEY}

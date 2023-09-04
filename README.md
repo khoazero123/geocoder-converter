@@ -47,7 +47,7 @@ https://graphhopper.com/api/1/search?q=berlin&key=[YOUR_KEY]
 
 This query will be translated to the following queries:
 ```
-https://nominatim.openstreetmap.org/search/berlin?format=json&addressdetails=1
+https://nominatim.openstreetmap.org/search?q=berlin&format=json&addressdetails=1
 https://api.opencagedata.com/geocode/v1/json?q=berlin
 https://services.gisgraphy.com/geocoding/search?address=berlin&format=json
 https://api.nettoolkit.com/v1/geo/geocodes?address=berlin
@@ -85,7 +85,7 @@ The geocoding converter supports the following additional Nominatim parameters, 
 
 A sample Nominatim Response for 
 ```
-https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1
+https://nominatim.openstreetmap.org/search?q=Unter%20den%20Linden%201%20Berlin&format=json&addressdetails=1&limit=1&polygon_svg=1
 ```
 
 looks like this
