@@ -35,6 +35,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
     @Timed
     public Response handle(@QueryParam("q") @DefaultValue("") String query,
                            @QueryParam("limit") @DefaultValue("5") int limit,
+                           @QueryParam("radius") @DefaultValue("1.0") double radius,
                            @QueryParam("locale") @DefaultValue("default") String locale,
                            @QueryParam("bbox") @DefaultValue("") String bbox,
                            @QueryParam("location_bias_scale") @DefaultValue("") String locationBiasScale,
@@ -47,7 +48,8 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
 
         WebTarget target;
         if (reverse) {
-            target = buildReverseTarget(point);
+            target = buildReverseTarget();
+            target.queryParam("radius", radius);
         } else {
             target = buildForwardTarget(query);
         }
@@ -104,7 +106,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
                 queryParam("q", query);
     }
 
-    private WebTarget buildReverseTarget(String point) {
+    private WebTarget buildReverseTarget() {
         return jerseyClient.
                 target(photonReverseUrl);
     }
