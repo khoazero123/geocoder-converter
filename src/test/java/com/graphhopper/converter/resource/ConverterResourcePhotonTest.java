@@ -116,6 +116,18 @@ public class ConverterResourcePhotonTest {
     }
 
     @Test
+    public void testReverseWithOSMTags() {
+        Response response = client.target(String.format("http://localhost:%d/photon?point=40.694632,-74.097403&reverse=true&osm_tag=aeroway:aerodrome&radius=30", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+
+        GHResponse entry = response.readEntity(GHResponse.class);
+        assertEquals("Newark Liberty International Airport", entry.getHits().get(0).getName());
+    }
+
+    @Test
     public void testCorrectLocale() {
         Response response = client.target(
                         String.format("http://localhost:%d/photon?q=berlin&locale=de", RULE.getLocalPort()))

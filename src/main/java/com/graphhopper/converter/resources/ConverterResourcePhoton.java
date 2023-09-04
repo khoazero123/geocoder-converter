@@ -49,7 +49,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
         WebTarget target;
         if (reverse) {
             target = buildReverseTarget();
-            target.queryParam("radius", radius);
+            target = target.queryParam("radius", radius);
         } else {
             target = buildForwardTarget(query);
         }
