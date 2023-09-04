@@ -47,7 +47,8 @@ public class ConverterResourceOpenCageDataTest {
         assertThat(response.getStatus()).isEqualTo(200);
         GHResponse entry = response.readEntity(GHResponse.class);
 
-        assertEquals("Seine-et-Marne", entry.getHits().get(0).getStateDistrict());
+        assertEquals("Seine-et-Marne", entry.getHits().get(0).getCounty());
+        // assertEquals("Seine-et-Marne", entry.getHits().get(0).getStateDistrict());
     }
 
 }
