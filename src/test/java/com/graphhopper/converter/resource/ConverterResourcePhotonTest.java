@@ -128,6 +128,16 @@ public class ConverterResourcePhotonTest {
     }
 
     @Test
+    public void testLongQuery() {
+        Response response = client.target(String.format("http://localhost:%d/photon?q=hh+hh+hhh+hh+hh+hhh+hh+hh+hhh+hh+hhhh+hh+hhh+hh+hh+hhh+hh+hh+hhh+hh+hhhh+hh+hhh+hh+hh+hhh+hh+hh+hhh+hh+hh+hh", RULE.getLocalPort()))
+                .request()
+                .get();
+
+        assertThat(response.getStatus()).isEqualTo(400);
+        assertThat(response.readEntity(String.class)).contains("q parameter cannot contain more than 30 spaces");
+    }
+
+    @Test
     public void testCorrectLocale() {
         Response response = client.target(
                         String.format("http://localhost:%d/photon?q=berlin&locale=de", RULE.getLocalPort()))

@@ -46,6 +46,11 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
         limit = fixLimit(limit);
         checkInvalidParameter(reverse, query, point);
 
+        if (query.length() > 300)
+            throw new BadRequestException("q parameter cannot be longer than 300 characters");
+        if (countSpaces(query) > 30)
+            throw new BadRequestException("q parameter cannot contain more than 30 spaces");
+
         WebTarget target;
         if (reverse) {
             target = buildReverseTarget();
@@ -98,6 +103,16 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
         } finally {
             response.close();
         }
+    }
+
+    public static int countSpaces(String input) {
+        int spaceCount = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == ' ') {
+                spaceCount++;
+            }
+        }
+        return spaceCount;
     }
 
     private WebTarget buildForwardTarget(String query) {
