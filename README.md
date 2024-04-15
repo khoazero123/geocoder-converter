@@ -10,9 +10,6 @@ same request  format  -> geocoder-converter ->    a geocoding provider like phot
 same response format  <- geocoder-converter <---/
 ```
 
-
-[![Build Status](https://travis-ci.org/graphhopper/geocoder-converter.svg?branch=master)](https://travis-ci.org/graphhopper/geocoder-converter)
-
 ## Starting the Server
 
 Run the following commands from the main directory - **the version of the .jar might be different**:

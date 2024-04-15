@@ -19,8 +19,8 @@ abstract class AbstractConverterResource {
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     int fixLimit(int limit) {
-        if (limit > 30) {
-            return 30;
+        if (limit > 500) {
+            return 500;
         }
         return limit;
     }
