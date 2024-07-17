@@ -39,6 +39,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
                            @QueryParam("locale") @DefaultValue("default") String locale,
                            @QueryParam("bbox") @DefaultValue("") String bbox,
                            @QueryParam("location_bias_scale") @DefaultValue("") String locationBiasScale,
+                           @QueryParam("zoom") @DefaultValue("16") int zoom,
                            @QueryParam("osm_tag") List<String> osmTags,
                            @QueryParam("reverse") @DefaultValue("false") boolean reverse,
                            @QueryParam("point") @DefaultValue("") String point
@@ -57,6 +58,7 @@ public class ConverterResourcePhoton extends AbstractConverterResource {
             target = target.queryParam("radius", radius);
         } else {
             target = buildForwardTarget(query);
+            target = target.queryParam("zoom", zoom);
         }
 
         target = target.queryParam("limit", limit);
