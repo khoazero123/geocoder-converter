@@ -49,7 +49,21 @@ abstract class AbstractConverterResource {
             if (query == null || query.trim().isEmpty()) {
                 throw new BadRequestException("q cannot be empty");
             }
+            if (isInvalidString(query, "{}[]")) {
+                throw new BadRequestException("q contains invalid characters like {}[]");
+            }
         }
+    }
+
+    public static boolean isInvalidString(String input, String allowedSpecialChars) {
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (Character.isDigit(c))
+                continue;
+            if (!Character.isLetter(c) && allowedSpecialChars.indexOf(c) == -1)
+                return true;
+        }
+        return false;
     }
 
     String getLocaleFromParameter(String locale) {
