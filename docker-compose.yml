@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  geocoder-converter:
+    image: registry.megavn.net/graphhopper/geocoder-converter:latest
+    build: .
+    # restart: unless-stopped
+    ports:
+      - "8088:8080"
+      - "8081:8081"
+    environment:
+      - NOMINATIM_URL=https://nominatim.megavn.net/search
+      - NOMINATIM_REVERSE_URL=https://nominatim.megavn.net/reverse
+      - NOM_EMAIL=test@megavn.net
